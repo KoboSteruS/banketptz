@@ -1,0 +1,430 @@
+{% extends "base.html" %}
+
+{% block body %}
+  {# Header #}
+  <header class="page-header">
+    <div class="container">
+      <div class="header-brand">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Банкетные залы Петрозаводск" width="96" height="96">
+        <div>
+          <h1>Банкетные залы</h1>
+          <p>Петрозаводск</p>
+        </div>
+      </div>
+      <nav class="header-nav" aria-label="Основное меню">
+        <a href="#services">Услуги</a>
+        <a href="#venues">Залы</a>
+        <a href="#menu">Меню</a>
+        <a href="#contacts">Контакты и заявка</a>
+      </nav>
+      <a href="tel:+79535423033" class="header-phone" aria-label="Позвонить">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        <span>+7 (953) 542-30-33</span>
+      </a>
+    </div>
+  </header>
+
+  {# Hero #}
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-bg">
+      <img src="{{ url_for('static', filename='images/hero/PpauEiCbAVaIVorGD6m-RFGOU8jl24a9CmSWf2p_PW-rZP3DI2H5cplvHbDmQ5cijTh6jr_w.jpg') }}" alt="Банкетные залы Петрозаводск">
+    </div>
+    <div class="hero-overlay" aria-hidden="true"></div>
+    <div class="container">
+      <div class="hero-content">
+        <h2 id="hero-title">Незабываемые торжества в самом сердце Петрозаводска</h2>
+        <p class="lead">5 банкетных залов для вашего идеального праздника. Профессиональная кухня, безупречный сервис и уютная атмосфера.</p>
+        <div class="hero-buttons">
+          <a href="#contacts" class="btn btn-primary">Забронировать зал</a>
+          <a href="#venues" class="btn btn-secondary">Посмотреть залы</a>
+        </div>
+      </div>
+    </div>
+    <div class="hero-scroll" aria-hidden="true">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+  </section>
+
+  {# Services #}
+  <section id="services" class="section" aria-labelledby="services-title">
+    <div class="container">
+      <div class="section-title">
+        <h2 id="services-title">Наши услуги</h2>
+        <p>Организуем любое мероприятие на высшем уровне</p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-card__icon" aria-hidden="true">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L15 8L22 9L17 14L18 21L12 18L6 21L7 14L2 9L9 8L12 2Z"/></svg>
+          </div>
+          <h3>Свадебные банкеты</h3>
+          <p>Создадим волшебную атмосферу вашего особенного дня</p>
+        </div>
+        <div class="service-card">
+          <div class="service-card__icon" aria-hidden="true">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h3>Корпоративы</h3>
+          <p>Профессиональное проведение деловых мероприятий</p>
+        </div>
+        <div class="service-card">
+          <div class="service-card__icon" aria-hidden="true">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+          </div>
+          <h3>Дни рождения и юбилеи</h3>
+          <p>Незабываемые праздники для любого возраста</p>
+        </div>
+        <div class="service-card">
+          <div class="service-card__icon" aria-hidden="true">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <h3>Торжественные мероприятия</h3>
+          <p>Выпускные, презентации и другие события</p>
+        </div>
+      </div>
+      <div class="services-extra">
+        <div class="services-extra-grid">
+          <div class="service-card" style="box-shadow: none;">
+            <div class="service-card__icon" aria-hidden="true">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg>
+            </div>
+            <h4 style="color: var(--color-teal);">Ресторанная кухня</h4>
+            <p>Авторские блюда от профессиональных поваров</p>
+          </div>
+          <div class="service-card" style="box-shadow: none;">
+            <div class="service-card__icon service-card__icon--pink" aria-hidden="true">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L15 8L22 9L17 14L18 21L12 18L6 21L7 14L2 9L9 8L12 2Z"/></svg>
+            </div>
+            <h4 style="color: var(--color-teal);">Сервировка и уборка</h4>
+            <p>Полный спектр услуг по организации праздника</p>
+          </div>
+          <div class="service-card" style="box-shadow: none;">
+            <div class="service-card__icon service-card__icon--gold" aria-hidden="true">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <h4 style="color: var(--color-teal);">Профессиональное обслуживание</h4>
+            <p>Внимательный персонал и индивидуальный подход</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {# Venues #}
+  <section id="venues" class="section section--white" aria-labelledby="venues-title">
+    <div class="container">
+      <div class="section-title">
+        <h2 id="venues-title">Наши залы</h2>
+        <p>5 уникальных пространств для вашего идеального праздника</p>
+      </div>
+      <div class="venues-grid">
+        <article class="venue-card">
+          <div class="venue-card__gallery">
+            <div class="venue-card__gallery-img--main">
+              <img src="{{ url_for('static', filename='images/Sverdlov/-v_XVKVGbJdE2vuU4IEQVWTrC2uPfw-7rFkcb91tGZja9ILuTn5Cm9BRr9IksNJKSd4qubyk.jpg') }}" alt="Зал СвердловЪ">
+            </div>
+            <div class="venue-card__gallery-img--sub">
+              <img src="{{ url_for('static', filename='images/Sverdlov/aJcjNtAQXQwa2oSyKwS5SL7tL4ct0ko9EFQOwxJD40C1y_uCi7SejWOfAehTyMo3RVckW3D1.jpg') }}" alt="СвердловЪ">
+            </div>
+            <div class="venue-card__gallery-img--sub">
+              <img src="{{ url_for('static', filename='images/Sverdlov/n7q8MGIi9PeMlGemnF9qGLhsoMvibPyeWbbtvMoYRauWBzuh0nSFGFDJ3TYuhKVbvUHb4BRN.jpg') }}" alt="СвердловЪ">
+            </div>
+          </div>
+          <div class="venue-card__body">
+            <h3>Банкетный зал «СвердловЪ»</h3>
+            <p>Мы находимся в непосредственной близости от набережной Онежского озера! В самом сердце города Петрозаводска. Вас ждут 2 уютных зала, красивый интерьер, вкусная кухня! Отличное место для свадьбы, корпоратива, юбилея или выпускного вечера.</p>
+            <ul class="venue-card__features">
+              <li>2 зала, общей вместимостью до 100 персон</li>
+              <li>Первоклассное обслуживание</li>
+              <li>Великолепное меню</li>
+              <li>Возможность использовать свои продукты и напитки</li>
+              <li>Рядом с набережной Онежского озера</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="venue-card">
+          <div class="venue-card__gallery">
+            <div class="venue-card__gallery-img--main">
+              <img src="https://images.unsplash.com/photo-1744776411221-702f2848b0b2?w=600&q=80" alt="Зал Серебряный">
+            </div>
+            <div class="venue-card__gallery-img--sub">
+              <img src="https://images.unsplash.com/photo-1762765685319-fdaf8d22085d?w=400&q=80" alt="">
+            </div>
+            <div class="venue-card__gallery-img--sub">
+              <img src="https://images.unsplash.com/photo-1652189740120-2f9ad284423d?w=400&q=80" alt="">
+            </div>
+          </div>
+          <div class="venue-card__body">
+            <h3>Банкетный зал «Серебряный»</h3>
+            <p>Проведение свадеб, корпоративов, юбилеев, выпускных вечеров! У нас живая музыка, приятная атмосфера, рядом находится набережная Онежского озера! Красивый, современный и светлый интерьер.</p>
+            <ul class="venue-card__features">
+              <li>Вместимость от 10 до 30 персон</li>
+              <li>Высокий сервис и демократичные цены</li>
+              <li>Возможность живой музыки</li>
+              <li>Можно принести свои напитки, фрукты, торты</li>
+              <li>Стоимость на 1 человека от 1000 руб.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="venue-card">
+          <div class="venue-card__gallery">
+            <div class="venue-card__gallery-img--main">
+              <img src="{{ url_for('static', filename='images/Tradicia/DqoFczTE8YUMNYl6Z7dF0nzPk8Vo-ynlOgzEp8mJAsafxKXBeYzKeFWVbq2OUVUUY7g92aOU.jpg') }}" alt="Зал Традиция">
+            </div>
+            <div class="venue-card__gallery-img--sub">
+              <img src="{{ url_for('static', filename='images/Tradicia/pkQ1z_MOjt8icXQcZK2AfqA5uaQ3feNTTYVqOFuVW-bGpxhLhZZ1w35A-vntV5ZeYIGKKcf1.jpg') }}" alt="Традиция">
+            </div>
+            <div class="venue-card__gallery-img--sub">
+              <img src="{{ url_for('static', filename='images/Tradicia/rp6BTw_7UJzbcsVPXAM6xjBvkTwIA2ouhvQqtVuRx0fkNoy_p1siXOPDCjWuK6HRaGTenniA.jpg') }}" alt="Традиция">
+            </div>
+          </div>
+          <div class="venue-card__body">
+            <h3>Банкетный зал «Традиция»</h3>
+            <p>Хотите отпраздновать свой день рождения, юбилей, сыграть свадьбу или провести корпоратив? Банкетный зал «Традиция» ждёт именно вас. Светлый и уютный зал, красивый интерьер и отличная кухня.</p>
+            <ul class="venue-card__features">
+              <li>От 50 до 70 посадочных мест</li>
+              <li>Первоклассное обслуживание</li>
+              <li>Великолепное праздничное меню</li>
+              <li>Удобная парковка</li>
+              <li>Возможность использовать свои продукты и напитки</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="venue-card">
+          <div class="venue-card__gallery">
+            <div class="venue-card__gallery-img--main">
+              <img src="{{ url_for('static', filename='images/Gogolya/2LFRQBSupGWw43dFyvTLwUP6LoWkJTQVph9v0Dcp-N9LPRsu4I6mn5w0IY6pcLdXt_GeCQzKv7VsxEn_unKG55L2.jpg') }}" alt="Зал На Гоголя">
+            </div>
+            <div class="venue-card__gallery-img--sub">
+              <img src="{{ url_for('static', filename='images/Gogolya/aGY5zKwcS_0sSrYLbt7lbOZhuBRs34e7kJAjNbX6WZ4wgeculBgWvUsIhV54IJIczcVZPOIUB2_Ya3SN9JKDoC0n.jpg') }}" alt="На Гоголя">
+            </div>
+            <div class="venue-card__gallery-img--sub">
+              <img src="{{ url_for('static', filename='images/Gogolya/Xjm5GjuhNAyVQFAHEzP7GJ5cGzkP8WiT-bYgxETx7i5w0alvOfxSZE4Rc_k0m6WDJnw1hj-OxU7PY-PEBMSwsVOM.jpg') }}" alt="На Гоголя">
+            </div>
+          </div>
+          <div class="venue-card__body">
+            <h3>Банкетный зал «На Гоголя»</h3>
+            <p>Банкетный зал «На Гоголя» — великолепное место для проведения торжеств: свадебных мероприятий, дней рождения, юбилеев, выпускных вечеров, детских праздников, фуршетов, презентаций и корпоративных вечеринок.</p>
+            <ul class="venue-card__features">
+              <li>Просторный зал до 70 человек</li>
+              <li>Звуковое и световое сопровождение</li>
+              <li>Вместительная автопарковка</li>
+              <li>Можно принести свои напитки, фрукты, торты</li>
+              <li>Услуги ведущего, артистов, организаторов праздника</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="venue-card">
+          <div class="venue-card__gallery">
+            <div class="venue-card__gallery-img--main">
+              <img src="{{ url_for('static', filename='images/Cascad/nRzQmNQVAZbK_8OmeVS61QYjdj4td2_rT3zpJiNYsco6-eg8v_LAtnj923Vjy-uqty39AMFefdUd7QFYFFb69mhB.jpg') }}" alt="Зал Каскад">
+            </div>
+            <div class="venue-card__gallery-img--sub">
+              <img src="{{ url_for('static', filename='images/Cascad/pvdbmqn6LP8Hm7vURYXMUPJfN7Qmts2c7aDnUbBqmvpPpbeYw-LbzNdfCob84QuoOzaCLppB2exLRmcvqcYD08os.jpg') }}" alt="Каскад">
+            </div>
+            <div class="venue-card__gallery-img--sub">
+              <img src="{{ url_for('static', filename='images/Cascad/UuaTyAxgnBbIFtLdT0keOyuMC2SdjYk3OomSoCs-fHD0oU99-HAat9qVBvSaAf6Yu11L-NfcDPbbuO1aYe_TQSIv.jpg') }}" alt="Каскад">
+            </div>
+          </div>
+          <div class="venue-card__body">
+            <h3>Банкетный зал «Каскад»</h3>
+            <p>Находится на Древлянке, в новом ЖК «Каскад». По адресу: проезд Алексея Афанасьева, 2. Современный интерьер и профессиональное обслуживание в новом районе города.</p>
+            <ul class="venue-card__features">
+              <li>Современный интерьер</li>
+              <li>Вместимость до 30 персон</li>
+              <li>Возможность принести свои напитки</li>
+              <li>Большой выбор меню</li>
+              <li>Профессиональное обслуживание</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  {# Menu: фото отдельно слева, блок с текстом справа #}
+  <section id="menu" class="section section--alt" aria-labelledby="menu-title">
+    <div class="container">
+      <div class="menu-section">
+        <div class="menu-gallery">
+          <img src="{{ url_for('static', filename='images/Food/19SbFQZkmYmxp4Z265OuHXtneBtz6N1qcECZLblTR_oUqb9kHzSOa7yNcwIwMxi8Kd4NqreaA3NS8-S-IoJl2egZ.jpg') }}" alt="">
+          <img src="{{ url_for('static', filename='images/Food/csaRVjVFcw811oeJWvlqDEb_ljnK5uHnpYyRBNWmdTRtNshbqtQtYbIM28cqTTnTNPNxU5ISbdI4VRs5aEHLjh-U.jpg') }}" alt="">
+          <img src="{{ url_for('static', filename='images/Food/fN_MAgOQTdM2h4du63pMPM1US_cV0S-RsvtHberZ0oi_o48h0lnbCcWlig08lt0XgSaND9hj0EkDGkSBJBuSWM2D.jpg') }}" alt="">
+        </div>
+        <div class="menu-card">
+          <div class="menu-card__header">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg>
+            <h2 id="menu-title">Наше меню</h2>
+            <p>Широкий выбор блюд и напитков для любого мероприятия</p>
+          </div>
+          <div class="menu-text">
+            <p class="menu-text__intro">В нашем меню сейчас:</p>
+            <ul class="menu-list">
+              <li>Банкетное меню</li>
+              <li>Фуршет</li>
+              <li>Детское меню</li>
+              <li>Горячие блюда</li>
+              <li>Холодные закуски</li>
+              <li>Салаты</li>
+              <li>Напитки</li>
+            </ul>
+            <a href="https://vk.com/doc365992219_680839208?hash=T78jVAWCUOzcHTr9VL6viPB8zdhlplbDzW5S2TDOu3T&dl=ZfoYzZoEGL0D1Cr2xPZWbc4GRZTeYTkPZKQlVIH4en4" target="_blank" rel="noopener noreferrer" class="btn menu-text__btn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg>
+              Посмотреть полное меню
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {# Контакты и бронирование — один блок с формой, контактами и картой #}
+  <section id="contacts" class="section section--alt" aria-labelledby="contacts-title">
+    <div class="container">
+      <div class="section-title">
+        <h2 id="contacts-title">Контакты и бронирование</h2>
+        <p>Оставьте заявку, позвоните нам или найдите зал на карте</p>
+      </div>
+
+      <div class="contacts-booking-grid">
+        <div class="contacts-booking__form" id="booking">
+          <h3 class="contacts-booking__form-title">Оставить заявку</h3>
+          <form class="booking-form" action="#" method="get" id="booking-form" aria-labelledby="contacts-title">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">Ваше имя *</label>
+                <input type="text" id="name" name="name" required placeholder="Иван Петров">
+              </div>
+              <div class="form-group">
+                <label for="phone">Телефон *</label>
+                <input type="tel" id="phone" name="phone" required placeholder="+7 (999) 123-45-67">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="guests">Количество гостей</label>
+                <input type="number" id="guests" name="guests" placeholder="50" min="1">
+              </div>
+              <div class="form-group">
+                <label for="date">Желаемая дата</label>
+                <input type="date" id="date" name="date">
+              </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 1.5rem;">
+              <label for="venue">Выберите зал</label>
+              <select id="venue" name="venue">
+                <option value="">Выберите зал</option>
+                <option value="СвердловЪ">СвердловЪ (до 100 чел.)</option>
+                <option value="Серебряный">Серебряный (10–30 чел.)</option>
+                <option value="Традиция">Традиция (50–70 чел.)</option>
+                <option value="На Гоголя">На Гоголя (до 70 чел.)</option>
+                <option value="Каскад">Каскад (до 30 чел.)</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom: 1.5rem;">
+              <label for="message">Комментарий</label>
+              <textarea id="message" name="message" rows="4" placeholder="Расскажите о вашем мероприятии..."></textarea>
+            </div>
+            <button type="submit" class="btn">Отправить заявку в Telegram</button>
+            <p class="form-note">Нажимая кнопку, вы будете перенаправлены в Telegram для отправки заявки</p>
+          </form>
+        </div>
+
+        <div class="contacts-booking__contacts">
+          <h3 class="contacts-booking__contacts-title">Связь с нами</h3>
+          <div class="contact-card contact-card--compact">
+            <div class="contact-card__icon contact-card__icon--teal" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <div>
+              <p class="contact-card__label">Телефоны для бронирования</p>
+              <a href="tel:+79535423033">+7 (953) 542-30-33</a>
+              <a href="tel:+79114119167">8 (911) 411-91-67</a>
+              <p class="contact-card__hours">Ежедневно с 9:00 до 21:00</p>
+            </div>
+          </div>
+          <div class="contact-card contact-card--compact">
+            <div class="contact-card__icon contact-card__icon--pink" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div>
+              <p class="contact-card__label">5 залов в Петрозаводске</p>
+              <p class="contact-card__text">Рядом с набережной Онежского озера, удобная парковка. Адреса залов — на карте ниже.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contacts-map-block">
+        <h3 class="contacts-map-title">Адреса залов на карте</h3>
+        <div class="contacts-map-wrap">
+          <iframe
+            class="contacts-map-iframe"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d144402.816!2d34.3469!3d61.7849!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x411e2c8e2b44e7a1%3A0x5c5e5c5e5c5e5c5e!2z0J_QtdGC0YDQvtC80LDQudGB0LrQsNGP!5e0!3m2!1sru!2sru!4v1700000000000"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Карта Петрозаводска — банкетные залы">
+          </iframe>
+        </div>
+        <ul class="contacts-addresses">
+          <li>
+            <strong>«СвердловЪ»</strong>
+            <a href="https://www.google.com/maps/search/%D0%BD%D0%B0%D0%B1%D0%B5%D1%80%D0%B5%D0%B6%D0%BD%D0%B0%D1%8F+%D0%9E%D0%BD%D0%B5%D0%B6%D1%81%D0%BA%D0%BE%D0%B3%D0%BE+%D0%BE%D0%B7%D0%B5%D1%80%D0%B0+%D0%9F%D0%B5%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%B2%D0%BE%D0%B4%D1%81%D0%BA" target="_blank" rel="noopener noreferrer">Набережная Онежского озера, Петрозаводск</a>
+          </li>
+          <li>
+            <strong>«Серебряный»</strong>
+            <a href="https://www.google.com/maps/search/%D0%BD%D0%B0%D0%B1%D0%B5%D1%80%D0%B5%D0%B6%D0%BD%D0%B0%D1%8F+%D0%9F%D0%B5%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%B2%D0%BE%D0%B4%D1%81%D0%BA" target="_blank" rel="noopener noreferrer">Район набережной, Петрозаводск</a>
+          </li>
+          <li>
+            <strong>«Традиция»</strong>
+            <a href="https://www.google.com/maps/search/%D0%91%D0%B0%D0%BD%D0%BA%D0%B5%D1%82%D0%BD%D1%8B%D0%B9+%D0%B7%D0%B0%D0%BB+%D0%A2%D1%80%D0%B0%D0%B4%D0%B8%D1%86%D0%B8%D1%8F+%D0%9F%D0%B5%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%B2%D0%BE%D0%B4%D1%81%D0%BA" target="_blank" rel="noopener noreferrer">Петрозаводск</a>
+          </li>
+          <li>
+            <strong>«На Гоголя»</strong>
+            <a href="https://www.google.com/maps/search/%D1%83%D0%BB+%D0%93%D0%BE%D0%B3%D0%BE%D0%BB%D1%8F+%D0%9F%D0%B5%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%B2%D0%BE%D0%B4%D1%81%D0%BA" target="_blank" rel="noopener noreferrer">ул. Гоголя, Петрозаводск</a>
+          </li>
+          <li>
+            <strong>«Каскад»</strong>
+            <a href="https://www.google.com/maps/search/%D0%BF%D1%80%D0%BE%D0%B5%D0%B7%D0%B4+%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B5%D1%8F+%D0%90%D1%84%D0%B0%D0%BD%D0%B0%D1%81%D1%8C%D0%B5%D0%B2%D0%B0+2+%D0%9F%D0%B5%D1%82%D1%80%D0%BE%D0%B7%D0%B0%D0%B2%D0%BE%D0%B4%D1%81%D0%BA" target="_blank" rel="noopener noreferrer">проезд Алексея Афанасьева, 2 (Древлянка)</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  {# Footer #}
+  <footer class="page-footer">
+    <div class="container">
+      <div class="footer-brand">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="" width="48" height="48">
+        <div>
+          <p>Банкетные залы Петрозаводск</p>
+          <p>Ваш идеальный праздник</p>
+        </div>
+      </div>
+      <div class="footer-copy">
+        <p>© 2026 Все права защищены</p>
+        <p>Создано с любовью для наших гостей</p>
+      </div>
+    </div>
+  </footer>
+
+  {# Floating call #}
+  <a href="tel:+79535423033" class="floating-call" aria-label="Позвонить">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+  </a>
+
+  <script>
+    document.getElementById('booking-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var form = e.target;
+      var text = 'Новая заявка на бронирование\n\nИмя: ' + form.name.value + '\nТелефон: ' + form.phone.value + '\nГостей: ' + form.guests.value + '\nДата: ' + form.date.value + '\nЗал: ' + form.venue.value + '\nКомментарий: ' + form.message.value;
+      window.open('https://t.me/share/url?url=' + encodeURIComponent(window.location.href) + '&text=' + encodeURIComponent(text), '_blank');
+    });
+  </script>
+{% endblock %}
