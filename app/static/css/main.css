@@ -597,114 +597,480 @@
   background-color: var(--color-gold);
 }
 
-/* --- Menu section: фото отдельно слева, блок справа --- */
-.menu-section {
+/* --- Venues: новая структура (шапка, галерея, блоки, карточки залов) --- */
+.venues-section {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.venues-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+}
+
+.venues-header__title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--foreground);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.venues-header__link {
+  font-size: 0.9375rem;
+  color: var(--color-teal);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.venues-header__link:hover {
+  text-decoration: underline;
+}
+
+.venues-header__link:focus-visible {
+  outline: 2px solid var(--color-teal);
+  outline-offset: 2px;
+}
+
+/* Галерея: одна большая картинка слева (2 ряда), справа 4 превью 2x2 */
+.venues-gallery {
   display: grid;
-  gap: 1.5rem;
-  align-items: start;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 0.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.venues-gallery__item {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  aspect-ratio: 4/3;
+  text-decoration: none;
+  color: #fff;
+}
+
+.venues-gallery__item--large {
+  grid-column: 1;
+  grid-row: 1 / -1;
+  aspect-ratio: auto;
+  min-height: 280px;
+}
+
+.venues-gallery__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.25s;
+}
+
+.venues-gallery__item:hover img {
+  transform: scale(1.03);
+}
+
+.venues-gallery__label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0.75rem 1rem;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.75));
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
 }
 
 @media (min-width: 768px) {
-  .menu-section {
-    grid-template-columns: minmax(0, 0.4fr) minmax(0, 0.6fr);
+  .venues-gallery {
+    grid-template-columns: 1.2fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 0.5rem;
+    min-height: 320px;
+  }
+
+  .venues-gallery__item--large {
+    min-height: 100%;
+  }
+
+  .venues-gallery__item:not(.venues-gallery__item--large) {
+    aspect-ratio: auto;
+  }
+}
+
+/* Три блока-сводки */
+.venues-summary {
+  display: grid;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+@media (min-width: 768px) {
+  .venues-summary {
+    grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
   }
 }
 
-.menu-gallery {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 360px 360px;
-  gap: 0.5rem;
-  height: 720px;
-  max-width: 100%;
+.venues-summary__block {
+  padding: 0;
 }
 
-.menu-gallery img:first-child {
-  grid-column: span 2;
+.venues-summary__title {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--foreground);
 }
 
-.menu-gallery img {
+.venues-summary__line {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: var(--radius-lg);
-  display: block;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  max-width: 4rem;
+  height: 3px;
+  margin-bottom: 0.75rem;
+  background: var(--color-teal);
+  border-radius: 2px;
 }
 
-.menu-card {
-  background: #fff;
-  border-radius: 1rem;
-  box-shadow: var(--shadow-card);
-  overflow: hidden;
-}
-
-.menu-card__header {
-  background: linear-gradient(to right, #06b6d4, #f472b6);
-  padding: 2rem;
-  text-align: center;
-  color: #fff;
-}
-
-.menu-card__header svg {
-  width: 4rem;
-  height: 4rem;
-  margin-bottom: 1rem;
-  opacity: 0.95;
-}
-
-.menu-card__header h2 {
-  margin: 0 0 0.75rem;
-  font-size: 2.5rem;
-  color: #fff;
-}
-
-.menu-card__header p {
+.venues-summary__text {
   margin: 0;
-  font-size: 1.125rem;
-  opacity: 0.95;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--muted-foreground);
 }
 
-.menu-text {
-  padding: 2rem;
+/* Карточка зала: заголовок + линия, фото слева, справа цена/кнопка/вместимость */
+.venue-detail {
+  margin-bottom: 2.5rem;
+  scroll-margin-top: 2rem;
+}
+
+.venue-detail:last-child {
+  margin-bottom: 0;
+}
+
+.venue-detail__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.venue-detail__name {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--foreground);
+}
+
+.venue-detail__meta {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: var(--muted-foreground);
+  flex-shrink: 0;
+}
+
+.venue-detail__line {
+  width: 100%;
+  height: 2px;
+  margin-bottom: 1rem;
+  background: linear-gradient(90deg, var(--color-teal) 0%, var(--color-gold) 100%);
+  border-radius: 1px;
+}
+
+.venue-detail__content {
+  display: grid;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .venue-detail__content {
+    grid-template-columns: 1fr 320px;
+    align-items: start;
+  }
+}
+
+.venue-detail__image {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--muted);
+}
+
+.venue-detail__image img {
+  width: 100%;
+  height: auto;
+  max-height: 380px;
+  object-fit: cover;
+  display: block;
+}
+
+.venue-detail__aside {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-.menu-text__intro {
-  margin: 0;
+.venue-detail__price {
+  padding: 0.75rem 1rem;
   font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  text-align: center;
+  color: var(--foreground);
+  background: #fff;
+  border: 2px solid var(--color-gold);
+  border-radius: var(--radius);
+}
+
+.venue-detail__btn {
+  width: 100%;
+  padding: 0.875rem 1.25rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  text-align: center;
+  color: var(--primary);
+  background: var(--color-gold);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.15s;
+  display: inline-block;
+}
+
+.venue-detail__btn:hover {
+  background: var(--color-teal);
+  color: #fff;
+}
+
+.venue-detail__btn:focus-visible {
+  outline: 2px solid var(--color-teal);
+  outline-offset: 2px;
+}
+
+.venue-detail__capacity {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.875rem;
+  line-height: 1.6;
   color: var(--muted-foreground);
 }
 
-.menu-list {
-  margin: 0;
-  padding-left: 1.25rem;
+.venue-detail__capacity li {
+  margin-bottom: 0.35rem;
+}
+
+.venue-detail__capacity-label {
+  font-weight: 600;
   color: var(--foreground);
-  font-size: 1rem;
-  line-height: 1.8;
 }
 
-.menu-list li {
-  margin-bottom: 0.25rem;
+/* --- Menu section: структура референса — заголовок, блок с сеткой 3 рядов, цвета сайта --- */
+.menu-section-new {
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
 }
 
-.menu-text__btn {
-  margin-top: 0.5rem;
-  background: var(--color-teal-light);
+.menu-section-new__title {
+  margin: 0 0 1.5rem;
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  font-weight: 600;
+  color: var(--foreground);
+  text-align: center;
+  line-height: 1.35;
+}
+
+.menu-block {
+  background: var(--background);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  padding: 1rem;
+}
+
+@media (min-width: 768px) {
+  .menu-block {
+    padding: 1.5rem;
+  }
+}
+
+.menu-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.menu-grid__row {
+  display: grid;
+  gap: 1rem;
+}
+
+.menu-grid__row--1 {
+  grid-template-columns: 1fr;
+}
+
+.menu-grid__row--2 {
+  grid-template-columns: 1fr;
+}
+
+.menu-grid__row--3 {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .menu-grid__row--1 {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .menu-grid__row--2 {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+
+  .menu-grid__row--3 {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media (min-width: 768px) {
+  .menu-grid {
+    gap: 1.25rem;
+  }
+
+  .menu-grid__row--3 {
+    grid-template-columns: 1fr 1fr 2fr;
+  }
+}
+
+.menu-cell {
+  min-height: 0;
+}
+
+.menu-cell--img {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--muted);
+}
+
+.menu-cell--img img {
+  width: 100%;
+  height: 100%;
+  min-height: 180px;
+  object-fit: cover;
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .menu-cell--img img {
+    min-height: 200px;
+  }
+}
+
+.menu-cell--text {
+  padding: 0.5rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.menu-cell--text p {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--muted-foreground);
+}
+
+.menu-block__btn {
+  margin-top: 0.75rem;
+  background: var(--color-teal);
   color: #fff;
   align-self: flex-start;
+  padding: 0.625rem 1.25rem;
+  border-radius: var(--radius);
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s;
 }
 
-.menu-text__btn:hover {
-  background: #3dbdb5;
+.menu-block__btn:hover {
+  background: var(--color-teal-light);
   color: #fff;
 }
 
-.menu-text__btn svg {
-  margin-right: 0.5rem;
+.menu-block__btn:focus-visible {
+  outline: 2px solid var(--color-teal);
+  outline-offset: 2px;
+}
+
+.menu-cell--cta {
+  display: flex;
+  align-items: stretch;
+}
+
+.menu-cta {
+  width: 100%;
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  background: var(--color-teal);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.menu-cta__icon {
+  width: 3rem;
+  height: 3rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.menu-cta__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.menu-cta__text {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: #fff;
+  max-width: 28ch;
+}
+
+.menu-cta__btn {
+  background: var(--color-gold);
+  color: var(--primary);
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius);
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+}
+
+.menu-cta__btn:hover {
+  background: #fff;
+  color: var(--color-teal);
+}
+
+.menu-cta__btn:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
 }
 
 /* --- Контакты и бронирование (объединённый блок) --- */
