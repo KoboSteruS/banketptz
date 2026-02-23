@@ -82,28 +82,44 @@
           <p>Выпускные, презентации и другие события</p>
         </div>
       </div>
-      <div class="services-extra">
-        <div class="services-extra-grid">
-          <div class="service-card" style="box-shadow: none;">
-            <div class="service-card__icon" aria-hidden="true">
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg>
+      <div class="reasons-block">
+        <h3 class="reasons-title">Почему выбирают именно нас</h3>
+        <p class="reasons-subtitle">Причины отпраздновать свадьбу в наших банкетных залах</p>
+        <div class="reasons-grid">
+          <div class="reason-card reason-card--teal">
+            <div class="reason-card__icon" aria-hidden="true">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
             </div>
-            <h4 style="color: var(--color-teal);">Ресторанная кухня</h4>
-            <p>Авторские блюда от профессиональных поваров</p>
+            <h4 class="reason-card__title">Отличная кухня и сервис</h4>
+            <p class="reason-card__desc">Первоклассное обслуживание и авторская кухня</p>
           </div>
-          <div class="service-card" style="box-shadow: none;">
-            <div class="service-card__icon service-card__icon--pink" aria-hidden="true">
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L15 8L22 9L17 14L18 21L12 18L6 21L7 14L2 9L9 8L12 2Z"/></svg>
+          <div class="reason-card reason-card--pink">
+            <div class="reason-card__icon" aria-hidden="true">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L15 8L22 9L17 14L18 21L12 18L6 21L7 14L2 9L9 8L12 2Z"/></svg>
             </div>
-            <h4 style="color: var(--color-teal);">Сервировка и уборка</h4>
-            <p>Полный спектр услуг по организации праздника</p>
+            <h4 class="reason-card__title">Оформление и декор</h4>
+            <p class="reason-card__desc">Комплексное оформление зала по привлекательным ценам</p>
           </div>
-          <div class="service-card" style="box-shadow: none;">
-            <div class="service-card__icon service-card__icon--gold" aria-hidden="true">
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <div class="reason-card reason-card--gold">
+            <div class="reason-card__icon" aria-hidden="true">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
             </div>
-            <h4 style="color: var(--color-teal);">Профессиональное обслуживание</h4>
-            <p>Внимательный персонал и индивидуальный подход</p>
+            <h4 class="reason-card__title">Свои сладости и алкоголь</h4>
+            <p class="reason-card__desc">Можно принести свои напитки и угощения</p>
+          </div>
+          <div class="reason-card reason-card--teal">
+            <div class="reason-card__icon" aria-hidden="true">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <h4 class="reason-card__title">Удобное расположение</h4>
+            <p class="reason-card__desc">Залы во всех районах города — не нужен дополнительный транспорт для гостей</p>
+          </div>
+          <div class="reason-card reason-card--pink">
+            <div class="reason-card__icon" aria-hidden="true">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            </div>
+            <h4 class="reason-card__title">6 залов на выбор</h4>
+            <p class="reason-card__desc">Разная вместимость и районы города — подберём идеальный вариант</p>
           </div>
         </div>
       </div>
@@ -399,17 +415,35 @@
 
   {# Footer #}
   <footer class="page-footer">
-    <div class="container">
+    <div class="container footer-main">
       <div class="footer-brand">
-        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="" width="48" height="48">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="" width="56" height="56">
         <div>
-          <p>Банкетные залы Петрозаводск</p>
-          <p>Ваш идеальный праздник</p>
+          <p class="footer-brand__name">Банкетные залы Петрозаводск</p>
+          <p class="footer-brand__tagline">Ваш идеальный праздник</p>
         </div>
       </div>
-      <div class="footer-copy">
-        <p>© 2026 Все права защищены</p>
-        <p>Создано с любовью для наших гостей</p>
+      <nav class="footer-nav" aria-label="Подвал — навигация">
+        <p class="footer-nav__title">Разделы</p>
+        <ul class="footer-nav__list">
+          <li><a href="#services">Услуги</a></li>
+          <li><a href="#venues">Залы</a></li>
+          <li><a href="#menu">Меню</a></li>
+          <li><a href="#contacts">Контакты и заявка</a></li>
+        </ul>
+      </nav>
+      <div class="footer-contacts">
+        <p class="footer-contacts__title">Контакты</p>
+        <a href="tel:+79535423033" class="footer-contacts__phone">+7 (953) 542-30-33</a>
+        <a href="tel:+79114119167" class="footer-contacts__phone">8 (911) 411-91-67</a>
+        <p class="footer-contacts__hours">Ежедневно с 9:00 до 21:00</p>
+        <p class="footer-contacts__city">Петрозаводск</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container footer-bottom__inner">
+        <p class="footer-copy">© 2026 Банкетные залы Петрозаводск. Все права защищены.</p>
+        <p class="footer-credit">Создано командой <a href="https://tech.at-ii.ru/" target="_blank" rel="noopener noreferrer" class="footer-credit__link">АТИИ</a></p>
       </div>
     </div>
   </footer>
