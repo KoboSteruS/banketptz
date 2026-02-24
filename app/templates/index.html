@@ -27,7 +27,7 @@
   {# Hero #}
   <section class="hero" aria-labelledby="hero-title">
     <div class="hero-bg">
-      <img src="{{ url_for('static', filename='images/hero/PpauEiCbAVaIVorGD6m-RFGOU8jl24a9CmSWf2p_PW-rZP3DI2H5cplvHbDmQ5cijTh6jr_w.jpg') }}" alt="Банкетные залы Петрозаводск">
+      <img src="{{ url_for('static', filename='images/hero/photo_2026-02-24_00-41-55.jpg') }}" alt="Банкетные залы Петрозаводск">
     </div>
     <div class="hero-overlay" aria-hidden="true"></div>
     <div class="container">
@@ -45,82 +45,161 @@
     </div>
   </section>
 
-  {# Services #}
+  {# Services: выбор события — слева иконки, справа фото + описание, смена фото вверх #}
   <section id="services" class="section" aria-labelledby="services-title">
     <div class="container">
       <div class="section-title">
-        <h2 id="services-title">Наши услуги</h2>
-        <p>Организуем любое мероприятие на высшем уровне</p>
+        <h2 id="services-title">Выберите своё событие</h2>
+        <p>Организуем событие любого масштаба — выберите интересующий вас формат</p>
       </div>
-      <div class="services-grid">
-        <div class="service-card">
-          <div class="service-card__icon" aria-hidden="true">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L15 8L22 9L17 14L18 21L12 18L6 21L7 14L2 9L9 8L12 2Z"/></svg>
+      <div class="services-panel">
+        <nav class="services-nav" aria-label="Типы мероприятий">
+          <button type="button" class="services-nav__item is-active" data-service="0" aria-pressed="true" aria-label="Свадьбы">
+            <span class="services-nav__icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L15 8L22 9L17 14L18 21L12 18L6 21L7 14L2 9L9 8L12 2Z"/></svg>
+            </span>
+            <span class="services-nav__label">Свадьбы</span>
+          </button>
+          <button type="button" class="services-nav__item" data-service="1" aria-pressed="false" aria-label="Корпоративы">
+            <span class="services-nav__icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>
+            </span>
+            <span class="services-nav__label">Корпоративы</span>
+          </button>
+          <button type="button" class="services-nav__item" data-service="2" aria-pressed="false" aria-label="Дни рождения">
+            <span class="services-nav__icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+            </span>
+            <span class="services-nav__label">Дни рождения</span>
+          </button>
+          <button type="button" class="services-nav__item" data-service="3" aria-pressed="false" aria-label="Торжества">
+            <span class="services-nav__icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21h8"/><path d="M12 16v5"/><path d="M9 6h6l-1 10H10L9 6z"/><path d="M7 6l2-3h6l2 3"/></svg>
+            </span>
+            <span class="services-nav__label">Торжества</span>
+          </button>
+        </nav>
+        <div class="services-slider">
+          <div class="services-slider__images" role="region" aria-label="Фото услуг">
+            <div class="services-slider__track">
+              <div class="services-slider__inner" id="services-slider-inner">
+                <div class="services-slider__slide">
+                  <img src="{{ url_for('static', filename='images/hero/photo_2026-02-24_00-41-55.jpg') }}" alt="Свадебные мероприятия">
+                  <span class="services-slider__overlay" aria-hidden="true"></span>
+                </div>
+                <div class="services-slider__slide">
+                  <img src="{{ url_for('static', filename='images/Sverdlov/-v_XVKVGbJdE2vuU4IEQVWTrC2uPfw-7rFkcb91tGZja9ILuTn5Cm9BRr9IksNJKSd4qubyk.jpg') }}" alt="Корпоративные мероприятия">
+                  <span class="services-slider__overlay" aria-hidden="true"></span>
+                </div>
+                <div class="services-slider__slide">
+                  <img src="{{ url_for('static', filename='images/Tradicia/DqoFczTE8YUMNYl6Z7dF0nzPk8Vo-ynlOgzEp8mJAsafxKXBeYzKeFWVbq2OUVUUY7g92aOU.jpg') }}" alt="Дни рождения и юбилеи">
+                  <span class="services-slider__overlay" aria-hidden="true"></span>
+                </div>
+                <div class="services-slider__slide">
+                  <img src="{{ url_for('static', filename='images/hero/PpauEiCbAVaIVorGD6m-RFGOU8jl24a9CmSWf2p_PW-rZP3DI2H5cplvHbDmQ5cijTh6jr_w.jpg') }}" alt="Торжественные мероприятия">
+                  <span class="services-slider__overlay" aria-hidden="true"></span>
+                </div>
+              </div>
+            </div>
           </div>
-          <h3>Свадебные банкеты</h3>
-          <p>Создадим волшебную атмосферу вашего особенного дня</p>
-        </div>
-        <div class="service-card">
-          <div class="service-card__icon" aria-hidden="true">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <div class="services-slider__text" id="services-slider-text">
+            <h3 class="services-slider__title" id="services-title-out">Свадебные мероприятия</h3>
+            <p class="services-slider__desc" id="services-desc">Создаём атмосферу, где важна каждая деталь — от концепции до финального аккорда вечера.</p>
+            <a href="#contacts" class="services-content__btn" id="services-btn">→ Обсудить свадьбу</a>
           </div>
-          <h3>Корпоративы</h3>
-          <p>Профессиональное проведение деловых мероприятий</p>
-        </div>
-        <div class="service-card">
-          <div class="service-card__icon" aria-hidden="true">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
-          </div>
-          <h3>Дни рождения и юбилеи</h3>
-          <p>Незабываемые праздники для любого возраста</p>
-        </div>
-        <div class="service-card">
-          <div class="service-card__icon" aria-hidden="true">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          </div>
-          <h3>Торжественные мероприятия</h3>
-          <p>Выпускные, презентации и другие события</p>
         </div>
       </div>
+      <script>
+        (function() {
+          var inner = document.getElementById('services-slider-inner');
+          var textBlock = document.getElementById('services-slider-text');
+          var titleEl = document.getElementById('services-title-out');
+          var descEl = document.getElementById('services-desc');
+          var btnEl = document.getElementById('services-btn');
+          var navItems = document.querySelectorAll('.services-nav__item');
+          var total = 4;
+          var textData = [
+            { title: "Свадебные мероприятия", desc: "Создаём атмосферу, где важна каждая деталь — от концепции до финального аккорда вечера.", btn: "→ Обсудить свадьбу" },
+            { title: "Корпоративные мероприятия", desc: "Профессиональное проведение деловых мероприятий: конференции, тимбилдинги, праздники для коллег.", btn: "→ Обсудить корпоратив" },
+            { title: "Дни рождения и юбилеи", desc: "Незабываемые праздники для любого возраста — уютные залы и внимательный сервис.", btn: "→ Обсудить праздник" },
+            { title: "Торжественные мероприятия", desc: "Выпускные, презентации и другие события — организуем на высшем уровне.", btn: "→ Обсудить мероприятие" }
+          ];
+          var fadeDuration = 220;
+          function goToSlide(index) {
+            if (index < 0 || index >= total) return;
+            var current = parseInt(document.querySelector('.services-nav__item.is-active').getAttribute('data-service'), 10);
+            if (index === current) return;
+            navItems.forEach(function(item) {
+              item.classList.remove('is-active');
+              item.setAttribute('aria-pressed', item.getAttribute('data-service') === String(index) ? 'true' : 'false');
+            });
+            navItems[index].classList.add('is-active');
+            inner.style.transform = 'translateY(-' + (index * 25) + '%)';
+            textBlock.classList.add('is-fade-out');
+            setTimeout(function() {
+              var d = textData[index];
+              titleEl.textContent = d.title;
+              descEl.textContent = d.desc;
+              btnEl.textContent = d.btn;
+              textBlock.classList.remove('is-fade-out');
+              textBlock.classList.add('is-fade-in');
+              setTimeout(function() { textBlock.classList.remove('is-fade-in'); }, fadeDuration);
+            }, fadeDuration);
+          }
+          navItems.forEach(function(item) {
+            item.addEventListener('click', function() { goToSlide(parseInt(item.getAttribute('data-service'), 10)); });
+          });
+        })();
+      </script>
       <div class="reasons-block">
-        <h3 class="reasons-title">Почему выбирают именно нас</h3>
-        <p class="reasons-subtitle">Причины отпраздновать свадьбу в наших банкетных залах</p>
-        <div class="reasons-grid">
-          <div class="reason-card reason-card--teal">
-            <div class="reason-card__icon" aria-hidden="true">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
-            </div>
-            <h4 class="reason-card__title">Отличная кухня и сервис</h4>
-            <p class="reason-card__desc">Первоклассное обслуживание и авторская кухня</p>
-          </div>
-          <div class="reason-card reason-card--pink">
-            <div class="reason-card__icon" aria-hidden="true">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L15 8L22 9L17 14L18 21L12 18L6 21L7 14L2 9L9 8L12 2Z"/></svg>
-            </div>
-            <h4 class="reason-card__title">Оформление и декор</h4>
-            <p class="reason-card__desc">Комплексное оформление зала по привлекательным ценам</p>
-          </div>
-          <div class="reason-card reason-card--gold">
-            <div class="reason-card__icon" aria-hidden="true">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
-            </div>
-            <h4 class="reason-card__title">Свои сладости и алкоголь</h4>
-            <p class="reason-card__desc">Можно принести свои напитки и угощения</p>
-          </div>
-          <div class="reason-card reason-card--teal">
-            <div class="reason-card__icon" aria-hidden="true">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            </div>
-            <h4 class="reason-card__title">Удобное расположение</h4>
-            <p class="reason-card__desc">Залы во всех районах города — не нужен дополнительный транспорт для гостей</p>
-          </div>
-          <div class="reason-card reason-card--pink">
-            <div class="reason-card__icon" aria-hidden="true">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-            </div>
-            <h4 class="reason-card__title">6 залов на выбор</h4>
-            <p class="reason-card__desc">Разная вместимость и районы города — подберём идеальный вариант</p>
-          </div>
+        <div class="reasons-content">
+          <h3 class="reasons-title">Почему выбирают нас</h3>
+          <p class="reasons-subtitle">Причины отпраздновать свадьбу в наших банкетных залах</p>
+          <ol class="reasons-list" role="list">
+            <li class="reason-item">
+              <span class="reason-item__num" aria-hidden="true">01</span>
+              <div class="reason-item__line" aria-hidden="true"></div>
+              <div class="reason-item__text">
+                <h4 class="reason-item__title">Отличная кухня и сервис</h4>
+                <p class="reason-item__desc">Авторская кухня и внимательное обслуживание</p>
+              </div>
+            </li>
+            <li class="reason-item">
+              <span class="reason-item__num" aria-hidden="true">02</span>
+              <div class="reason-item__line" aria-hidden="true"></div>
+              <div class="reason-item__text">
+                <h4 class="reason-item__title">Оформление и декор</h4>
+                <p class="reason-item__desc">Комплексное оформление зала по привлекательным ценам</p>
+              </div>
+            </li>
+            <li class="reason-item">
+              <span class="reason-item__num" aria-hidden="true">03</span>
+              <div class="reason-item__line" aria-hidden="true"></div>
+              <div class="reason-item__text">
+                <h4 class="reason-item__title">Свои сладости и алкоголь</h4>
+                <p class="reason-item__desc">Можно принести свои напитки и угощения</p>
+              </div>
+            </li>
+            <li class="reason-item">
+              <span class="reason-item__num" aria-hidden="true">04</span>
+              <div class="reason-item__line" aria-hidden="true"></div>
+              <div class="reason-item__text">
+                <h4 class="reason-item__title">Удобное расположение</h4>
+                <p class="reason-item__desc">Залы во всех районах города — не нужен дополнительный транспорт для гостей</p>
+              </div>
+            </li>
+            <li class="reason-item">
+              <span class="reason-item__num" aria-hidden="true">05</span>
+              <div class="reason-item__line" aria-hidden="true"></div>
+              <div class="reason-item__text">
+                <h4 class="reason-item__title">5 залов на выбор</h4>
+                <p class="reason-item__desc">Разная вместимость и районы города — подберём идеальный вариант</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+        <div class="reasons-image">
+          <img src="{{ url_for('static', filename='images/hero/PpauEiCbAVaIVorGD6m-RFGOU8jl24a9CmSWf2p_PW-rZP3DI2H5cplvHbDmQ5cijTh6jr_w.jpg') }}" alt="Интерьер банкетного зала с декором">
         </div>
       </div>
     </div>
