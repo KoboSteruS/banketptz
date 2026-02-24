@@ -78,6 +78,17 @@
             </span>
             <span class="services-nav__label">Торжества</span>
           </button>
+          <button type="button" class="services-nav__item" data-service="4" aria-pressed="false" aria-label="Другое">
+            <span class="services-nav__icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                <circle cx="5" cy="12" r="2"/>
+                <circle cx="12" cy="12" r="2"/>
+                <circle cx="19" cy="12" r="2"/>
+              </svg>
+              <!-- <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21h8"/><path d="M12 16v5"/><path d="M9 6h6l-1 10H10L9 6z"/><path d="M7 6l2-3h6l2 3"/></svg> -->
+            </span>
+            <span class="services-nav__label">Другое</span>
+          </button>
         </nav>
         <div class="services-slider">
           <div class="services-slider__images" role="region" aria-label="Фото услуг">
@@ -93,6 +104,10 @@
                 </div>
                 <div class="services-slider__slide">
                   <img src="{{ url_for('static', filename='images/Tradicia/DqoFczTE8YUMNYl6Z7dF0nzPk8Vo-ynlOgzEp8mJAsafxKXBeYzKeFWVbq2OUVUUY7g92aOU.jpg') }}" alt="Дни рождения и юбилеи">
+                  <span class="services-slider__overlay" aria-hidden="true"></span>
+                </div>
+                <div class="services-slider__slide">
+                  <img src="{{ url_for('static', filename='images/hero/PpauEiCbAVaIVorGD6m-RFGOU8jl24a9CmSWf2p_PW-rZP3DI2H5cplvHbDmQ5cijTh6jr_w.jpg') }}" alt="Торжественные мероприятия">
                   <span class="services-slider__overlay" aria-hidden="true"></span>
                 </div>
                 <div class="services-slider__slide">
@@ -117,12 +132,13 @@
           var descEl = document.getElementById('services-desc');
           var btnEl = document.getElementById('services-btn');
           var navItems = document.querySelectorAll('.services-nav__item');
-          var total = 4;
+          var total = 5;
           var textData = [
             { title: "Свадебные мероприятия", desc: "Создаём атмосферу, где важна каждая деталь — от концепции до финального аккорда вечера.", btn: "→ Обсудить свадьбу" },
             { title: "Корпоративные мероприятия", desc: "Профессиональное проведение деловых мероприятий: конференции, тимбилдинги, праздники для коллег.", btn: "→ Обсудить корпоратив" },
             { title: "Дни рождения и юбилеи", desc: "Незабываемые праздники для любого возраста — уютные залы и внимательный сервис.", btn: "→ Обсудить праздник" },
-            { title: "Торжественные мероприятия", desc: "Выпускные, презентации и другие события — организуем на высшем уровне.", btn: "→ Обсудить мероприятие" }
+            { title: "Торжественные мероприятия", desc: "Выпускные, презентации и другие события — организуем на высшем уровне.", btn: "→ Обсудить мероприятие" },
+            { title: "Другое", desc: "также мы проводим поминальные мероприятия.", btn: "→ Обсудить мероприятие" }
           ];
           var fadeDuration = 220;
           function goToSlide(index) {
@@ -372,47 +388,74 @@
       <h2 id="menu-title" class="menu-section-new__title">Профессиональная кухня и меню из любимых блюд</h2>
 
       <div class="menu-block">
-        <div class="menu-grid">
-          <div class="menu-grid__row menu-grid__row--1">
-            <div class="menu-cell menu-cell--img">
-              <img src="{{ url_for('static', filename='images/Food/19SbFQZkmYmxp4Z265OuHXtneBtz6N1qcECZLblTR_oUqb9kHzSOa7yNcwIwMxi8Kd4NqreaA3NS8-S-IoJl2egZ.jpg') }}" alt="Блюда банкетного меню">
-            </div>
-            <div class="menu-cell menu-cell--text">
-              <p>Предлагаем меню из более 100 позиций — симбиоз русской, европейской и кавказской кухни. Банкетное меню, фуршет, детское меню, горячие и холодные закуски, салаты, напитки.</p>
-              <a href="https://vk.com/doc365992219_680839208?hash=T78jVAWCUOzcHTr9VL6viPB8zdhlplbDzW5S2TDOu3T&dl=ZfoYzZoEGL0D1Cr2xPZWbc4GRZTeYTkPZKQlVIH4en4" target="_blank" rel="noopener noreferrer" class="btn menu-block__btn">Посмотреть меню</a>
-            </div>
-            <div class="menu-cell menu-cell--img">
-              <img src="{{ url_for('static', filename='images/Food/csaRVjVFcw811oeJWvlqDEb_ljnK5uHnpYyRBNWmdTRtNshbqtQtYbIM28cqTTnTNPNxU5ISbdI4VRs5aEHLjh-U.jpg') }}" alt="Праздничные блюда">
-            </div>
+        <div class="menu-row-top">
+          <div class="menu-card-image">
+            <img src="{{ url_for('static', filename='images/Food/19SbFQZkmYmxp4Z265OuHXtneBtz6N1qcECZLblTR_oUqb9kHzSOa7yNcwIwMxi8Kd4NqreaA3NS8-S-IoJl2egZ.jpg') }}" alt="Блюда банкетного меню">
+            <a
+              href="https://vk.com/doc365992219_680839208?hash=T78jVAWCUOzcHTr9VL6viPB8zdhlplbDzW5S2TDOu3T&dl=ZfoYzZoEGL0D1Cr2xPZWbc4GRZTeYTkPZKQlVIH4en4"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="menu-image-btn"
+            >
+              <span class="menu-image-btn__icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="7" height="7" rx="1" />
+                  <rect x="14" y="3" width="7" height="7" rx="1" />
+                  <rect x="3" y="14" width="7" height="7" rx="1" />
+                  <rect x="14" y="14" width="7" height="7" rx="1" />
+                </svg>
+              </span>
+              <span class="menu-image-btn__label">Посмотреть меню</span>
+            </a>
           </div>
-          <div class="menu-grid__row menu-grid__row--2">
-            <div class="menu-cell menu-cell--img">
-              <img src="{{ url_for('static', filename='images/Food/fN_MAgOQTdM2h4du63pMPM1US_cV0S-RsvtHberZ0oi_o48h0lnbCcWlig08lt0XgSaND9hj0EkDGkSBJBuSWM2D.jpg') }}" alt="Гости за столом">
-            </div>
-            <div class="menu-cell menu-cell--text">
-              <p>Можем приготовить любое блюдо, которого нет в меню — под ваши вкусы и предпочтения.</p>
-            </div>
-            <div class="menu-cell menu-cell--text">
-              <p>Пробковый сбор 400 руб. с человека: можете привезти с собой алкоголь, напитки, икру и фрукты.</p>
-            </div>
-            <div class="menu-cell menu-cell--img">
-              <img src="{{ url_for('static', filename='images/hero/PpauEiCbAVaIVorGD6m-RFGOU8jl24a9CmSWf2p_PW-rZP3DI2H5cplvHbDmQ5cijTh6jr_w.jpg') }}" alt="Праздничное мероприятие">
-            </div>
-          </div>
-          <div class="menu-grid__row menu-grid__row--3">
-            <div class="menu-cell menu-cell--text">
-              <p>Удивляем гостей кулинарным шоу и анимационной подачей за счёт гастрономических фудстанций.</p>
-            </div>
-            <div class="menu-cell menu-cell--img">
-              <img src="{{ url_for('static', filename='images/Food/19SbFQZkmYmxp4Z265OuHXtneBtz6N1qcECZLblTR_oUqb9kHzSOa7yNcwIwMxi8Kd4NqreaA3NS8-S-IoJl2egZ.jpg') }}" alt="Кейтеринг и подача">
-            </div>
-            <div class="menu-cell menu-cell--cta">
-              <div class="menu-cta">
-                <span class="menu-cta__icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg></span>
-                <p class="menu-cta__text">Блюда вы можете заранее продегустировать: сет блюд из 6 позиций за 5000 ₽</p>
-                <a href="#contacts" class="btn menu-cta__btn">Записаться на дегустацию</a>
+
+          <article class="menu-card menu-card--list">
+            <h3 class="menu-card__title">Более 100 позиций</h3>
+            <ul class="menu-card__list">
+              <li>Банкетное меню, фуршет, детское меню</li>
+              <li>Горячие и холодные закуски, салаты, десерты</li>
+              <li>Можно принести свой алкоголь по условиям пробкового сбора</li>
+            </ul>
+            <p class="menu-card__text">
+              Готовим индивидуально любое блюдо под ваш вкус: блюда из мяса, рыбы, изысканные салаты и авторские десерты.
+            </p>
+          </article>
+
+          <article class="menu-card menu-card--corkage">
+            <h3 class="menu-card__title">Пробковый сбор 400 ₽ с человека</h3>
+            <p class="menu-card__text">
+              Вы можете привезти с собой алкоголь, напитки, воду, икру и фрукты. Мы обеспечим аккуратную сервировку и
+              обслуживание — без скрытых доплат.
+            </p>
+          </article>
+        </div>
+
+        <div class="menu-row-cta">
+          <div class="menu-degustation">
+            <div class="menu-degustation__main">
+              <div class="menu-degustation__icon" aria-hidden="true">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 20h18" />
+                  <path d="M12 4c-3.5 0-6 2.2-6 5a4 4 0 0 0 2 3.4V17h8v-4.6A4 4 0 0 0 18 9c0-2.8-2.5-5-6-5Z" />
+                </svg>
               </div>
+              <div class="menu-degustation__text">
+                <h3>Записаться на дегустацию</h3>
+                <p>Блюда по вашему заданию продегустируем: сет из 6 позиций из меню за 5000 ₽.</p>
+              </div>
+            </div>
+            <div class="menu-degustation__actions">
+              <a
+                href="https://vk.com/doc365992219_680839208?hash=T78jVAWCUOzcHTr9VL6viPB8zdhlplbDzW5S2TDOu3T&dl=ZfoYzZoEGL0D1Cr2xPZWbc4GRZTeYTkPZKQlVIH4en4"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="menu-degustation__btn menu-degustation__btn--ghost"
+              >
+                Посмотреть меню
+              </a>
+              <a href="#contacts" class="menu-degustation__btn menu-degustation__btn--primary">
+                Записаться на дегустацию
+              </a>
             </div>
           </div>
         </div>
