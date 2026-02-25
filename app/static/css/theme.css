@@ -46,7 +46,7 @@ html {
 
 body {
   margin: 0;
-  font-family: "Playfair Display", system-ui, -apple-system, Segoe UI, Inter, sans-serif;
+  font-family: "Inter", system-ui, -apple-system, Segoe UI, sans-serif;
   font-weight: 500;
   line-height: 1.55;
   color: var(--foreground);
@@ -54,6 +54,7 @@ body {
 }
 
 h1, h2, h3, h4 {
+  font-family: "Playfair Display", Georgia, serif;
   font-weight: var(--font-weight-medium);
   line-height: 1.5;
 }
