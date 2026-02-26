@@ -105,6 +105,122 @@
   box-shadow: var(--shadow-card);
 }
 
+
+
+
+/* --- Mobile burger --- */
+.header-burger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 44px;
+  height: 44px;
+  border: 0;
+  cursor: pointer;
+
+  border-radius: 14px;
+  background: rgba(255,255,255,0.45);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.65);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.08);
+}
+
+.header-burger__lines {
+  position: relative;
+  width: 22px;
+  height: 2px;
+  background: #2E2E2E;
+  border-radius: 999px;
+}
+
+.header-burger__lines::before,
+.header-burger__lines::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 22px;
+  height: 2px;
+  background: #2E2E2E;
+  border-radius: 999px;
+  transition: transform 0.2s ease, top 0.2s ease, opacity 0.2s ease;
+}
+
+.header-burger__lines::before { top: -7px; }
+.header-burger__lines::after  { top:  7px; }
+
+/* --- Mobile menu panel --- */
+.header-mobile {
+  display: none;
+  position: fixed;          /* было absolute */
+  top: 80px;                /* высота шапки */
+  left: 0;
+  right: 0;
+
+  padding: 1rem;
+  margin: 0 1rem;
+
+  border-radius: 20px;
+
+  background: rgba(255,255,255,0.96);   /* делаем плотнее */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+
+  border: 1px solid rgba(0,0,0,0.05);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.18);
+
+  z-index: 999;
+}
+
+.header-mobile a {
+  display: block;
+  padding: 0.85rem 0.9rem;
+  border-radius: 14px;
+  text-decoration: none;
+  color: #2E2E2E;
+
+  font-family: "Manrope", system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+.header-mobile a:hover {
+  background: rgba(22, 141, 149, 0.10); /* var(--color-teal-bg) если хочешь */
+}
+
+.header-mobile__phone {
+  margin-top: 0.25rem;
+  font-weight: 600;
+}
+
+/* --- Show burger only on mobile, hide desktop nav/phone --- */
+.header-burger { display: none; }
+.header-mobile { display: none; }
+
+@media (max-width: 767px) {
+
+  .header-nav { display: none; }
+  .header-phone { display: none; }
+  .header-burger { display: inline-flex; }
+  .header-mobile:not([hidden]) {
+    display: grid;
+  }
+}
+
+
+.header-burger.is-open .header-burger__lines {
+  background: transparent;
+}
+.header-burger.is-open .header-burger__lines::before {
+  top: 0;
+  transform: rotate(45deg);
+}
+.header-burger.is-open .header-burger__lines::after {
+  top: 0;
+  transform: rotate(-45deg);
+}
+
 /* --- Hero --- */
 .hero {
   position: relative;
@@ -170,6 +286,17 @@
   text-transform: uppercase;
   letter-spacing: 1px;
   font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .hero-content #hero-title {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-style: italic;
+    font-size: 40px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 5px;
+  }
 }
 
 .hero-content .lead {
@@ -401,7 +528,7 @@
 
 @media (min-width: 768px) {
   .services-slider__track {
-    min-height: 280px;
+    min-height: 350px;
   }
 }
 
@@ -438,7 +565,6 @@
   top: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.35);
   pointer-events: none;
 }
 
@@ -516,6 +642,43 @@
   outline-offset: 2px;
 }
 
+
+
+.services-note {
+  margin: 2.5rem auto 0;
+  padding: 1.25rem 1.5rem;
+
+  max-width: 680px;
+  text-align: center;
+
+  border-radius: 18px;
+
+  background: rgba(255,255,255,0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  border: 1px solid rgba(0,0,0,0.05);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+}
+
+.services-note__title {
+  margin: 0 0 0.35rem;
+
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 600;
+  font-size: 20px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.services-note__text {
+  margin: 0;
+  font-family: "Manrope", sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--muted-foreground);
+}
+
 /* --- Почему выбирают нас: двухколоночный макет, список с номерами и вертикальной линией --- */
 .reasons-block {
   margin-top: 3rem;
@@ -524,6 +687,8 @@
   grid-template-columns: 1fr;
   align-items: start;
 }
+
+
 
 @media (min-width: 900px) {
   .reasons-block {
@@ -843,6 +1008,29 @@
     aspect-ratio: auto;
   }
 }
+
+@media (max-width: 768px) {
+  .venues-gallery {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.9rem;
+    padding: 1.25rem;
+  }
+
+  .venues-gallery__item,
+  .venues-gallery__item--large {
+    aspect-ratio: 16 / 9;   /* одинаковые “карточки” */
+    min-height: auto;
+  }
+
+  .venues-gallery__label {
+    padding: 0.9rem 1rem;
+    font-size: 1rem;
+    letter-spacing: 0.06em;
+  }
+}
+
+
 
 /* Три блока-сводки */
 .venues-summary {
