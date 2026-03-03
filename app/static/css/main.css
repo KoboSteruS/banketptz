@@ -1266,6 +1266,7 @@
   overflow: hidden;
   box-shadow: var(--shadow-card);
   min-height: 220px;
+  max-height: 540px;
 }
 
 @media (min-width: 768px) {
@@ -1995,6 +1996,31 @@
 .floating-call svg {
   width: 2rem;
   height: 2rem;
+}
+
+.footer-social {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 42px;
+  height: 42px;
+
+  margin-top: 0.75rem;
+
+  border-radius: 14px;
+
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+
+  color: #ffffff;
+
+  transition: all 0.25s ease;
+}
+
+.footer-social:hover {
+  background: rgba(255,255,255,0.25);
+  transform: translateY(-2px);
 }
 
 
