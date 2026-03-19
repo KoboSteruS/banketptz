@@ -357,7 +357,7 @@
           </ul>
 
           <div class="venue-detail__actions">
-            <a href="#" class="venue-btn venue-btn--ghost">Фотоснимки</a>
+            <button type="button" class="venue-btn venue-btn--ghost" data-venue-photos="sverdlov" aria-label="Открыть фото зала СвердловЪ">Фотоснимки</button>
             <a href="#contacts" class="venue-btn venue-btn--primary">Забронировать зал</a>
           </div>
         </div>
@@ -391,7 +391,7 @@
           </ul>
 
           <div class="venue-detail__actions">
-            <a href="#" class="venue-btn venue-btn--ghost">Фотоснимки</a>
+            <button type="button" class="venue-btn venue-btn--ghost" data-venue-photos="serebryany" aria-label="Открыть фото зала Серебряный">Фотоснимки</button>
             <a href="#contacts" class="venue-btn venue-btn--primary">Забронировать зал</a>
           </div>
         </div>
@@ -425,7 +425,7 @@
           </ul>
 
           <div class="venue-detail__actions">
-            <a href="#" class="venue-btn venue-btn--ghost">Фотоснимки</a>
+            <button type="button" class="venue-btn venue-btn--ghost" data-venue-photos="tradicia" aria-label="Открыть фото зала Традиция">Фотоснимки</button>
             <a href="#contacts" class="venue-btn venue-btn--primary">Забронировать зал</a>
           </div>
         </div>
@@ -461,7 +461,7 @@
           </ul>
 
           <div class="venue-detail__actions">
-            <a href="#" class="venue-btn venue-btn--ghost">Фотоснимки</a>
+            <button type="button" class="venue-btn venue-btn--ghost" data-venue-photos="gogolya" aria-label="Открыть фото зала На Гоголя">Фотоснимки</button>
             <a href="#contacts" class="venue-btn venue-btn--primary">Забронировать зал</a>
           </div>
         </div>
@@ -495,7 +495,7 @@
           </ul>
 
           <div class="venue-detail__actions">
-            <a href="#" class="venue-btn venue-btn--ghost">Фотоснимки</a>
+            <button type="button" class="venue-btn venue-btn--ghost" data-venue-photos="cascad" aria-label="Открыть фото зала Каскад">Фотоснимки</button>
             <a href="#contacts" class="venue-btn venue-btn--primary">Забронировать зал</a>
           </div>
         </div>
@@ -528,7 +528,7 @@
           </ul>
 
           <div class="venue-detail__actions">
-            <a href="#" class="venue-btn venue-btn--ghost">Фотоснимки</a>
+            <button type="button" class="venue-btn venue-btn--ghost" data-venue-photos="room" aria-label="Открыть фото зала Room">Фотоснимки</button>
             <a href="#contacts" class="venue-btn venue-btn--primary">Забронировать зал</a>
           </div>
         </div>
@@ -537,6 +537,194 @@
     </article>
   </div>
 </section>
+
+{# Модальное окно галереи фото зала #}
+<div id="venue-photos-modal" class="photo-modal" role="dialog" aria-modal="true" aria-labelledby="venue-photos-modal-title" hidden>
+  <div class="photo-modal__backdrop" aria-hidden="true"></div>
+  <div class="photo-modal__box">
+    <div class="photo-modal__head">
+      <h3 id="venue-photos-modal-title" class="photo-modal__title"></h3>
+      <button type="button" class="photo-modal__close" aria-label="Закрыть">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+    <div class="photo-modal__body">
+      <div class="photo-modal__gallery" id="venue-photos-gallery"></div>
+    </div>
+  </div>
+</div>
+
+{# Полноэкранный лайтбокс с листанием #}
+<div id="venue-photos-lightbox" class="photo-lightbox" role="dialog" aria-modal="true" aria-label="Просмотр фото" hidden>
+  <div class="photo-lightbox__backdrop" aria-hidden="true"></div>
+  <button type="button" class="photo-lightbox__nav photo-lightbox__nav--prev" aria-label="Предыдущее фото">
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <button type="button" class="photo-lightbox__nav photo-lightbox__nav--next" aria-label="Следующее фото">
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+  </button>
+  <div class="photo-lightbox__content">
+    <img class="photo-lightbox__img" id="venue-lightbox-img" src="" alt="">
+  </div>
+  <div class="photo-lightbox__bar">
+    <span class="photo-lightbox__counter" id="venue-lightbox-counter"></span>
+    <button type="button" class="photo-lightbox__close" aria-label="Закрыть просмотр">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+(function () {
+  var venueTitles = {
+    sverdlov: 'Зал СвердловЪ',
+    serebryany: 'Зал Серебряный',
+    tradicia: 'Зал «Традиция»',
+    gogolya: 'Зал На Гоголя',
+    cascad: 'Зал Каскад',
+    room: 'Зал Room'
+  };
+  window.VENUE_PHOTOS = {
+    sverdlov: [
+      "{{ url_for('static', filename='images/Sverdlov/Sverdlov.jpg') }}",
+      "{{ url_for('static', filename='images/Sverdlov/Sverdlov2.jpg') }}"
+    ],
+    serebryany: [
+      "{{ url_for('static', filename='images/Serebro/Serebro.jpg') }}",
+      "{{ url_for('static', filename='images/Serebro/Serebro2.jpg') }}"
+    ],
+    tradicia: [
+      "{{ url_for('static', filename='images/Tradicia/Tradicia.jpg') }}",
+      "{{ url_for('static', filename='images/Tradicia/Tradition.jpg') }}"
+    ],
+    gogolya: [
+      "{{ url_for('static', filename='images/Gogolya/gogolya.jpg') }}",
+      "{{ url_for('static', filename='images/Gogolya/Gogolya2.jpg') }}"
+    ],
+    cascad: [
+      "{{ url_for('static', filename='images/Cascad/Kascad.jpg') }}",
+      "{{ url_for('static', filename='images/Cascad/Caskad.jpg') }}"
+    ],
+    room: [
+      "{{ url_for('static', filename='images/Cascad/Room.jpg') }}",
+      "{{ url_for('static', filename='images/Cascad/Room1.jpg') }}"
+    ]
+  };
+
+  var modal = document.getElementById('venue-photos-modal');
+  var titleEl = document.getElementById('venue-photos-modal-title');
+  var galleryEl = document.getElementById('venue-photos-gallery');
+  var closeBtn = modal && modal.querySelector('.photo-modal__close');
+  var backdrop = modal && modal.querySelector('.photo-modal__backdrop');
+
+  var lightbox = document.getElementById('venue-photos-lightbox');
+  var lightboxImg = document.getElementById('venue-lightbox-img');
+  var lightboxCounter = document.getElementById('venue-lightbox-counter');
+  var lightboxBackdrop = lightbox && lightbox.querySelector('.photo-lightbox__backdrop');
+  var lightboxClose = lightbox && lightbox.querySelector('.photo-lightbox__close');
+  var lightboxPrev = lightbox && lightbox.querySelector('.photo-lightbox__nav--prev');
+  var lightboxNext = lightbox && lightbox.querySelector('.photo-lightbox__nav--next');
+
+  var lightboxPhotos = [];
+  var lightboxIndex = 0;
+  var lightboxTitle = '';
+
+  function openLightbox(photos, index, title) {
+    if (!lightbox || !lightboxImg || !photos || !photos.length) return;
+    lightboxPhotos = photos;
+    lightboxIndex = index >= 0 && index < photos.length ? index : 0;
+    lightboxTitle = title || 'Фото';
+    showLightboxImage();
+    lightbox.hidden = false;
+    document.body.style.overflow = 'hidden';
+    if (lightboxClose) lightboxClose.focus();
+  }
+
+  function showLightboxImage() {
+    if (!lightboxImg || !lightboxPhotos.length) return;
+    var src = lightboxPhotos[lightboxIndex];
+    lightboxImg.src = src;
+    lightboxImg.alt = lightboxTitle + ' — фото ' + (lightboxIndex + 1);
+    if (lightboxCounter) lightboxCounter.textContent = (lightboxIndex + 1) + ' / ' + lightboxPhotos.length;
+    if (lightboxPrev) lightboxPrev.style.visibility = lightboxPhotos.length > 1 ? 'visible' : 'hidden';
+    if (lightboxNext) lightboxNext.style.visibility = lightboxPhotos.length > 1 ? 'visible' : 'hidden';
+  }
+
+  function closeLightbox() {
+    if (!lightbox) return;
+    lightbox.hidden = true;
+    document.body.style.overflow = '';
+  }
+
+  function lightboxPrevPhoto() {
+    if (lightboxPhotos.length <= 1) return;
+    lightboxIndex = lightboxIndex <= 0 ? lightboxPhotos.length - 1 : lightboxIndex - 1;
+    showLightboxImage();
+  }
+
+  function lightboxNextPhoto() {
+    if (lightboxPhotos.length <= 1) return;
+    lightboxIndex = lightboxIndex >= lightboxPhotos.length - 1 ? 0 : lightboxIndex + 1;
+    showLightboxImage();
+  }
+
+  function openModal(venueId) {
+    var photos = window.VENUE_PHOTOS && window.VENUE_PHOTOS[venueId];
+    var title = venueTitles[venueId] || 'Фото зала';
+    if (!modal || !photos || !photos.length) return;
+    titleEl.textContent = title;
+    galleryEl.innerHTML = '';
+    photos.forEach(function (src, i) {
+      var img = document.createElement('img');
+      img.src = src;
+      img.alt = title + ' — фото ' + (i + 1);
+      img.className = 'photo-modal__img';
+      img.setAttribute('data-index', i);
+      img.setAttribute('role', 'button');
+      img.setAttribute('tabindex', '0');
+      img.addEventListener('click', function () { openLightbox(photos, i, title); });
+      img.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox(photos, i, title); }
+      });
+      galleryEl.appendChild(img);
+    });
+    modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    if (closeBtn) closeBtn.focus();
+  }
+
+  function closeModal() {
+    if (!modal) return;
+    modal.hidden = true;
+    document.body.style.overflow = '';
+  }
+
+  if (modal) {
+    document.querySelectorAll('[data-venue-photos]').forEach(function (btn) {
+      btn.addEventListener('click', function () { openModal(btn.getAttribute('data-venue-photos')); });
+    });
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    if (backdrop) backdrop.addEventListener('click', closeModal);
+    modal.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeModal();
+    });
+  }
+
+  if (lightbox) {
+    if (lightboxBackdrop) lightboxBackdrop.addEventListener('click', closeLightbox);
+    if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
+    if (lightboxPrev) lightboxPrev.addEventListener('click', lightboxPrevPhoto);
+    if (lightboxNext) lightboxNext.addEventListener('click', lightboxNextPhoto);
+    lightbox.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') { e.preventDefault(); lightboxPrevPhoto(); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); lightboxNextPhoto(); }
+    });
+  }
+})();
+</script>
 
 {# Menu: структура как в референсе — заголовок сверху, блок с сеткой (3 ряда), цвета сайта #}
 <section id="menu" class="section section--alt menu-section-new" aria-labelledby="menu-title">
@@ -695,10 +883,11 @@
     <div class="contacts-map-block">
       <h3 class="contacts-map-title">Адреса залов на карте</h3>
       <div class="contacts-map-wrap">
+        {# Координаты залов: СвердловЪ, Серебряный, Традиция, На Гоголя, Каскад, Room (lon,lat для pt=) #}
         <iframe class="contacts-map-iframe"
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d144402.816!2d34.3469!3d61.7849!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x411e2c8e2b44e7a1%3A0x5c5e5c5e5c5e5c5e!2z0J_QtdGC0YDQvtC80LDQudGB0LrQsNGP!5e0!3m2!1sru!2sru!4v1700000000000"
-          allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-          title="Карта Петрозаводска — банкетные залы">
+          src="https://yandex.ru/map-widget/v1/?ll=34.34,61.78&amp;z=11&amp;pt=34.374681,61.791193,pm2rdm~34.329828,61.809618,pm2rdm~34.384482,61.766930,pm2rdm~34.355942,61.780585,pm2rdm~34.296689,61.766696,pm2rdm~34.358432,61.7852585,pm2rdm"
+          allowfullscreen="" loading="lazy"
+          title="Карта Петрозаводска — адреса банкетных залов (СвердловЪ, Серебряный, Традиция, На Гоголя, Каскад, Room)">
         </iframe>
       </div>
       <ul class="contacts-addresses">
