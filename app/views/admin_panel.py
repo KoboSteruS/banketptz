@@ -40,6 +40,13 @@ def _bind_token() -> None:
     g.admin_token = token
 
 
+@admin_panel_bp.after_request
+def _admin_noindex_headers(response):
+    """Запрещаем индексацию всех страниц админки."""
+    response.headers["X-Robots-Tag"] = "noindex, nofollow, noarchive"
+    return response
+
+
 def _token_url(endpoint: str, **kwargs) -> str:
     return url_for(endpoint, token=g.admin_token, **kwargs)
 
