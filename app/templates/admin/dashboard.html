@@ -1,0 +1,12 @@
+{% extends "admin/base.html" %}
+{% block title %}Панель{% endblock %}
+{% block body %}
+<div class="card">
+  <h1>Панель управления</h1>
+  <p class="muted">Редактируйте тексты, изображения (пути в JSON) и залы. Сохраняйте ссылку с секретом — она даёт доступ без логина.</p>
+  <ul>
+    <li><a href="{{ token_url('admin_panel.texts_edit') }}">Тексты и контент</a> — JSON страницы (hero, услуги, меню, контакты, карта).</li>
+    <li><a href="{{ token_url('admin_panel.halls_list') }}">Залы</a> — сейчас в базе: <strong>{{ hall_count }}</strong> шт.</li>
+  </ul>
+</div>
+{% endblock %}

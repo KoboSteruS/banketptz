@@ -1,0 +1,37 @@
+{% extends "admin/base.html" %}
+{% block title %}Залы{% endblock %}
+{% block body %}
+<div class="card">
+  <h1>Залы</h1>
+  <p><a href="{{ token_url('admin_panel.hall_new') }}" class="btn">Добавить зал</a></p>
+  {% if halls %}
+  <table>
+    <thead>
+      <tr>
+        <th>Порядок</th>
+        <th>Название</th>
+        <th>Slug</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for h in halls %}
+      <tr>
+        <td>{{ h.sort_order }}</td>
+        <td>{{ h.title_short }}</td>
+        <td><code>{{ h.slug }}</code></td>
+        <td>
+          <a href="{{ token_url('admin_panel.hall_edit', hall_id=h.id) }}">Изменить</a>
+          <form method="post" action="{{ token_url('admin_panel.hall_delete', hall_id=h.id) }}" style="display:inline;" onsubmit="return confirm('Удалить зал?');">
+            <button type="submit" class="danger" style="margin-left:0.5rem;">Удалить</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="muted">Залов нет — добавьте первый.</p>
+  {% endif %}
+</div>
+{% endblock %}

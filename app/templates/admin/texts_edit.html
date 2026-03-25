@@ -1,0 +1,236 @@
+{% extends "admin/base.html" %}
+{% block title %}Тексты{% endblock %}
+{% block body %}
+{% macro image_upload_row(file_input_name, text_input_id, text_input_name, label, current_path, placeholder) %}
+<p class="texts-image-field">
+  <label for="{{ text_input_id }}">{{ label }}</label>
+  {% if current_path %}
+  <span class="muted">Сейчас: <code>{{ current_path }}</code></span>
+  <div class="admin-thumb-wrap"><img src="{{ url_for('static', filename=current_path) }}" alt="" class="admin-thumb" loading="lazy"></div>
+  {% endif %}
+  <input type="file" name="{{ file_input_name }}" accept="image/png,image/jpeg,image/webp,image/gif">
+  <span class="muted texts-upload-alt">Загрузить с компьютера — или укажите путь в static:</span>
+  <input type="text" id="{{ text_input_id }}" name="{{ text_input_name }}" value="{{ current_path }}" placeholder="{{ placeholder }}">
+</p>
+{% endmacro %}
+{% set ritems = content.reasons['items'] %}
+{% set dritems = defaults.reasons['items'] %}
+{% set vsum = content.venues_section.summary %}
+{% set dvsum = defaults.venues_section.summary %}
+{% set mli = content.menu.card_list_items %}
+{% set dmli = defaults.menu.card_list_items %}
+
+<div class="card">
+  <h1>Тексты и контент</h1>
+  <p class="muted">Поля заполнены текущими значениями. Подсказки — из <code>site_defaults.json</code>. Картинки можно <strong>загрузить файлом</strong> (PNG, JPG, WebP, GIF) — попадут в <code>static/uploads/site/</code>, либо ввести путь вручную.</p>
+
+  <form method="post" enctype="multipart/form-data" action="{{ token_url('admin_panel.texts_edit') }}">
+
+    <section class="texts-section">
+      <h2>Шапка</h2>
+      <div class="texts-grid texts-grid--2">
+        <p><label for="header_site_name">Название (рядом с логотипом)</label>
+          <span class="texts-hint">placeholder: пример из дефолта</span>
+          <input type="text" id="header_site_name" name="header_site_name" value="{{ content.header.site_name }}" placeholder="{{ defaults.header.site_name }}"></p>
+        <p><label for="header_city">Город</label>
+          <input type="text" id="header_city" name="header_city" value="{{ content.header.city }}" placeholder="{{ defaults.header.city }}"></p>
+        {{ image_upload_row('header_logo_file', 'header_logo_path', 'header_logo_path', 'Логотип', content.header.logo_path, defaults.header.logo_path) }}
+        <p><label for="header_phone_display">Телефон (текст в шапке)</label>
+          <input type="text" id="header_phone_display" name="header_phone_display" value="{{ content.header.phone_display }}" placeholder="{{ defaults.header.phone_display }}"></p>
+        <p><label for="header_phone_href">Ссылка tel: для шапки</label>
+          <input type="text" id="header_phone_href" name="header_phone_href" value="{{ content.header.phone_href }}" placeholder="{{ defaults.header.phone_href }}"></p>
+        <p><label for="header_mobile_phone_display">Телефон в мобильном меню</label>
+          <input type="text" id="header_mobile_phone_display" name="header_mobile_phone_display" value="{{ content.header.mobile_phone_display }}" placeholder="{{ defaults.header.mobile_phone_display }}"></p>
+      </div>
+    </section>
+
+    <section class="texts-section">
+      <h2>Hero (главный экран)</h2>
+      <div class="texts-grid">
+        {{ image_upload_row('hero_image_file', 'hero_image', 'hero_image', 'Фоновое изображение (hero)', content.hero.image, defaults.hero.image) }}
+        <p><label for="hero_title">Заголовок</label>
+          <input type="text" id="hero_title" name="hero_title" value="{{ content.hero.title }}" placeholder="{{ defaults.hero.title }}"></p>
+        <p><label for="hero_lead">Подзаголовок</label>
+          <textarea id="hero_lead" name="hero_lead" rows="3" placeholder="{{ defaults.hero.lead }}">{{ content.hero.lead }}</textarea></p>
+        <div class="texts-grid texts-grid--2">
+          <p><label for="hero_cta_book">Кнопка «Забронировать»</label>
+            <input type="text" id="hero_cta_book" name="hero_cta_book" value="{{ content.hero.cta_book }}" placeholder="{{ defaults.hero.cta_book }}"></p>
+          <p><label for="hero_cta_venues">Кнопка «Залы»</label>
+            <input type="text" id="hero_cta_venues" name="hero_cta_venues" value="{{ content.hero.cta_venues }}" placeholder="{{ defaults.hero.cta_venues }}"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="texts-section">
+      <h2>Услуги (слайдер)</h2>
+      <p><label for="serv_section_title">Заголовок секции</label>
+        <input type="text" id="serv_section_title" name="serv_section_title" value="{{ content.services.section_title }}" placeholder="{{ defaults.services.section_title }}"></p>
+      <p><label for="serv_section_subtitle">Подзаголовок</label>
+        <textarea id="serv_section_subtitle" name="serv_section_subtitle" rows="2" placeholder="{{ defaults.services.section_subtitle }}">{{ content.services.section_subtitle }}</textarea></p>
+      {% for i in range(content.services.slides|length) %}
+      {% set s = content.services.slides[i] %}
+      {% set ds = defaults.services.slides[i] %}
+      <div class="slide-block">
+        <h3>Слайд {{ i + 1 }}</h3>
+        <div class="texts-grid texts-grid--2">
+          <p><label for="slide_{{ i }}_nav_label">Подпись в навигации слева</label>
+            <input type="text" id="slide_{{ i }}_nav_label" name="slide_{{ i }}_nav_label" value="{{ s.nav_label }}" placeholder="{{ ds.nav_label }}"></p>
+          <p><label for="slide_{{ i }}_nav_aria">aria-label кнопки</label>
+            <input type="text" id="slide_{{ i }}_nav_aria" name="slide_{{ i }}_nav_aria" value="{{ s.nav_aria }}" placeholder="{{ ds.nav_aria }}"></p>
+        </div>
+        {{ image_upload_row('slide_' ~ i ~ '_img_file', 'slide_' ~ i ~ '_img', 'slide_' ~ i ~ '_img', 'Фото слайда', s.img, ds.img) }}
+        <p><label for="slide_{{ i }}_alt">Alt изображения</label>
+          <input type="text" id="slide_{{ i }}_alt" name="slide_{{ i }}_alt" value="{{ s.alt }}" placeholder="{{ ds.alt }}"></p>
+        <p><label for="slide_{{ i }}_title">Заголовок текста</label>
+          <input type="text" id="slide_{{ i }}_title" name="slide_{{ i }}_title" value="{{ s.title }}" placeholder="{{ ds.title }}"></p>
+        <p><label for="slide_{{ i }}_desc">Описание</label>
+          <textarea id="slide_{{ i }}_desc" name="slide_{{ i }}_desc" rows="2" placeholder="{{ ds.desc }}">{{ s.desc }}</textarea></p>
+        <p><label for="slide_{{ i }}_btn">Текст кнопки</label>
+          <input type="text" id="slide_{{ i }}_btn" name="slide_{{ i }}_btn" value="{{ s.btn }}" placeholder="{{ ds.btn }}"></p>
+      </div>
+      {% endfor %}
+      <p><label for="serv_note_title">Блок «Также проводим» — заголовок</label>
+        <input type="text" id="serv_note_title" name="serv_note_title" value="{{ content.services.note_title }}" placeholder="{{ defaults.services.note_title }}"></p>
+      <p><label for="serv_note_text">Блок «Также проводим» — текст</label>
+        <textarea id="serv_note_text" name="serv_note_text" rows="2" placeholder="{{ defaults.services.note_text }}">{{ content.services.note_text }}</textarea></p>
+    </section>
+
+    <section class="texts-section">
+      <h2>Почему выбирают нас</h2>
+      <div class="texts-grid texts-grid--2">
+        <p><label for="reasons_title">Заголовок</label>
+          <input type="text" id="reasons_title" name="reasons_title" value="{{ content.reasons.title }}" placeholder="{{ defaults.reasons.title }}"></p>
+        {{ image_upload_row('reasons_image_file', 'reasons_image', 'reasons_image', 'Фото блока', content.reasons.image, defaults.reasons.image) }}
+      </div>
+      <p><label for="reasons_subtitle">Подзаголовок</label>
+        <textarea id="reasons_subtitle" name="reasons_subtitle" rows="2" placeholder="{{ defaults.reasons.subtitle }}">{{ content.reasons.subtitle }}</textarea></p>
+      {% for i in range(ritems|length) %}
+      {% set it = ritems[i] %}
+      {% set dit = dritems[i] %}
+      <div class="slide-block">
+        <h3>Пункт {{ i + 1 }}</h3>
+        <p><label for="reason_{{ i }}_title">Заголовок</label>
+          <input type="text" id="reason_{{ i }}_title" name="reason_{{ i }}_title" value="{{ it.title }}" placeholder="{{ dit.title }}"></p>
+        <p><label for="reason_{{ i }}_desc">Описание</label>
+          <textarea id="reason_{{ i }}_desc" name="reason_{{ i }}_desc" rows="2" placeholder="{{ dit.desc }}">{{ it.desc }}</textarea></p>
+      </div>
+      {% endfor %}
+    </section>
+
+    <section class="texts-section">
+      <h2>Секция «Залы» (шапка и три колонки)</h2>
+      <div class="texts-grid texts-grid--2">
+        <p><label for="vs_heading">Заголовок</label>
+          <input type="text" id="vs_heading" name="vs_heading" value="{{ content.venues_section.heading }}" placeholder="{{ defaults.venues_section.heading }}"></p>
+        <p><label for="vs_link_text">Текст ссылки справа</label>
+          <input type="text" id="vs_link_text" name="vs_link_text" value="{{ content.venues_section.link_text }}" placeholder="{{ defaults.venues_section.link_text }}"></p>
+      </div>
+      <p><label for="vs_link_href">Ссылка (href), например #contacts</label>
+        <input type="text" id="vs_link_href" name="vs_link_href" value="{{ content.venues_section.link_href }}" placeholder="{{ defaults.venues_section.link_href }}"></p>
+      {% for i in range(vsum|length) %}
+      {% set bl = vsum[i] %}
+      {% set dbl = dvsum[i] %}
+      <div class="slide-block">
+        <h3>Колонка {{ i + 1 }}</h3>
+        <p><label for="vs_sum_{{ i }}_title">Заголовок</label>
+          <input type="text" id="vs_sum_{{ i }}_title" name="vs_sum_{{ i }}_title" value="{{ bl.title }}" placeholder="{{ dbl.title }}"></p>
+        <p><label for="vs_sum_{{ i }}_text">Текст</label>
+          <textarea id="vs_sum_{{ i }}_text" name="vs_sum_{{ i }}_text" rows="3" placeholder="{{ dbl.text }}">{{ bl.text }}</textarea></p>
+      </div>
+      {% endfor %}
+    </section>
+
+    <section class="texts-section">
+      <h2>Меню</h2>
+      <p><label for="menu_title">Заголовок секции</label>
+        <input type="text" id="menu_title" name="menu_title" value="{{ content.menu.title }}" placeholder="{{ defaults.menu.title }}"></p>
+      <div class="texts-grid texts-grid--2">
+        {{ image_upload_row('menu_food_image_file', 'menu_food_image', 'menu_food_image', 'Большое фото блюд', content.menu.food_image, defaults.menu.food_image) }}
+        {{ image_upload_row('menu_corkage_image_file', 'menu_corkage_image', 'menu_corkage_image', 'Фото пробкового сбора', content.menu.corkage_image, defaults.menu.corkage_image) }}
+      </div>
+      <p><label for="menu_doc_url">Ссылка на меню (VK / PDF)</label>
+        <input type="text" id="menu_doc_url" name="menu_doc_url" value="{{ content.menu.menu_doc_url }}" placeholder="{{ defaults.menu.menu_doc_url }}" class="monospace"></p>
+      <p><label for="menu_card_list_title">Заголовок карточки списка</label>
+        <input type="text" id="menu_card_list_title" name="menu_card_list_title" value="{{ content.menu.card_list_title }}" placeholder="{{ defaults.menu.card_list_title }}"></p>
+      {% for i in range(mli|length) %}
+      <p><label for="menu_li_{{ i }}">Строка списка {{ i + 1 }}</label>
+        <input type="text" id="menu_li_{{ i }}" name="menu_li_{{ i }}" value="{{ mli[i] }}" placeholder="{{ dmli[i] }}"></p>
+      {% endfor %}
+      <p><label for="menu_card_list_text">Текст под списком</label>
+        <textarea id="menu_card_list_text" name="menu_card_list_text" rows="3" placeholder="{{ defaults.menu.card_list_text }}">{{ content.menu.card_list_text }}</textarea></p>
+      <div class="texts-grid texts-grid--2">
+        <p><label for="menu_corkage_title">Заголовок «Пробковый сбор»</label>
+          <input type="text" id="menu_corkage_title" name="menu_corkage_title" value="{{ content.menu.corkage_title }}" placeholder="{{ defaults.menu.corkage_title }}"></p>
+      </div>
+      <p><label for="menu_corkage_text">Текст пробкового сбора</label>
+        <textarea id="menu_corkage_text" name="menu_corkage_text" rows="2" placeholder="{{ defaults.menu.corkage_text }}">{{ content.menu.corkage_text }}</textarea></p>
+      <p><label for="menu_degust_title">Дегустация — заголовок</label>
+        <input type="text" id="menu_degust_title" name="menu_degust_title" value="{{ content.menu.degust_title }}" placeholder="{{ defaults.menu.degust_title }}"></p>
+      <p><label for="menu_degust_text">Дегустация — текст</label>
+        <textarea id="menu_degust_text" name="menu_degust_text" rows="2" placeholder="{{ defaults.menu.degust_text }}">{{ content.menu.degust_text }}</textarea></p>
+    </section>
+
+    <section class="texts-section">
+      <h2>Контакты и карта</h2>
+      <p><label for="ct_section_title">Заголовок секции</label>
+        <input type="text" id="ct_section_title" name="ct_section_title" value="{{ content.contacts.section_title }}" placeholder="{{ defaults.contacts.section_title }}"></p>
+      <p><label for="ct_section_subtitle">Подзаголовок</label>
+        <textarea id="ct_section_subtitle" name="ct_section_subtitle" rows="2" placeholder="{{ defaults.contacts.section_subtitle }}">{{ content.contacts.section_subtitle }}</textarea></p>
+      <div class="texts-grid texts-grid--2">
+        <p><label for="ct_form_title">Заголовок формы</label>
+          <input type="text" id="ct_form_title" name="ct_form_title" value="{{ content.contacts.form_title }}" placeholder="{{ defaults.contacts.form_title }}"></p>
+        <p><label for="ct_contacts_title">Заголовок блока контактов</label>
+          <input type="text" id="ct_contacts_title" name="ct_contacts_title" value="{{ content.contacts.contacts_title }}" placeholder="{{ defaults.contacts.contacts_title }}"></p>
+      </div>
+      <p><label for="ct_phone_label">Подпись над телефонами</label>
+        <input type="text" id="ct_phone_label" name="ct_phone_label" value="{{ content.contacts.phone_label }}" placeholder="{{ defaults.contacts.phone_label }}"></p>
+      <div class="texts-grid texts-grid--2">
+        <p><label for="ct_phone1_display">Телефон 1 (текст)</label>
+          <input type="text" id="ct_phone1_display" name="ct_phone1_display" value="{{ content.contacts.phone1_display }}" placeholder="{{ defaults.contacts.phone1_display }}"></p>
+        <p><label for="ct_phone1_href">Телефон 1 (tel:)</label>
+          <input type="text" id="ct_phone1_href" name="ct_phone1_href" value="{{ content.contacts.phone1_href }}" placeholder="{{ defaults.contacts.phone1_href }}"></p>
+        <p><label for="ct_phone2_display">Телефон 2 (текст)</label>
+          <input type="text" id="ct_phone2_display" name="ct_phone2_display" value="{{ content.contacts.phone2_display }}" placeholder="{{ defaults.contacts.phone2_display }}"></p>
+        <p><label for="ct_phone2_href">Телефон 2 (tel:)</label>
+          <input type="text" id="ct_phone2_href" name="ct_phone2_href" value="{{ content.contacts.phone2_href }}" placeholder="{{ defaults.contacts.phone2_href }}"></p>
+      </div>
+      <p><label for="ct_hours">Часы работы</label>
+        <input type="text" id="ct_hours" name="ct_hours" value="{{ content.contacts.hours }}" placeholder="{{ defaults.contacts.hours }}"></p>
+      <p><label for="ct_location_label">Подпись блока локации</label>
+        <input type="text" id="ct_location_label" name="ct_location_label" value="{{ content.contacts.location_label }}" placeholder="{{ defaults.contacts.location_label }}"></p>
+      <p><label for="ct_location_text">Текст локации</label>
+        <textarea id="ct_location_text" name="ct_location_text" rows="2" placeholder="{{ defaults.contacts.location_text }}">{{ content.contacts.location_text }}</textarea></p>
+      <p><label for="ct_map_title">Заголовок над картой</label>
+        <input type="text" id="ct_map_title" name="ct_map_title" value="{{ content.contacts.map_title }}" placeholder="{{ defaults.contacts.map_title }}"></p>
+      <p><label for="ct_map_embed_url">URL iframe карты</label>
+        <textarea id="ct_map_embed_url" name="ct_map_embed_url" rows="2" class="monospace" placeholder="{{ defaults.contacts.map_embed_url }}">{{ content.contacts.map_embed_url }}</textarea></p>
+      <p><label for="ct_map_iframe_title">title у iframe (доступность)</label>
+        <input type="text" id="ct_map_iframe_title" name="ct_map_iframe_title" value="{{ content.contacts.map_iframe_title }}" placeholder="{{ defaults.contacts.map_iframe_title }}"></p>
+    </section>
+
+    <section class="texts-section">
+      <h2>Подвал</h2>
+      <div class="texts-grid texts-grid--2">
+        <p><label for="ft_brand_name">Название бренда</label>
+          <input type="text" id="ft_brand_name" name="ft_brand_name" value="{{ content.footer.brand_name }}" placeholder="{{ defaults.footer.brand_name }}"></p>
+        <p><label for="ft_tagline">Слоган</label>
+          <input type="text" id="ft_tagline" name="ft_tagline" value="{{ content.footer.tagline }}" placeholder="{{ defaults.footer.tagline }}"></p>
+      </div>
+      <p><label for="ft_vk_url">Ссылка ВКонтакте</label>
+        <input type="text" id="ft_vk_url" name="ft_vk_url" value="{{ content.footer.vk_url }}" placeholder="{{ defaults.footer.vk_url }}"></p>
+      <p><label for="ft_copy">Копирайт (строка)</label>
+        <input type="text" id="ft_copy" name="ft_copy" value="{{ content.footer.copy }}" placeholder="{{ defaults.footer.copy }}"></p>
+      <p><label for="ft_credit_html">Кредит (HTML, допускаются теги)</label>
+        <textarea id="ft_credit_html" name="ft_credit_html" rows="3" class="monospace" placeholder="Создано командой &lt;a href=&quot;...&quot; class=&quot;footer-credit__link&quot;&gt;...&lt;/a&gt;">{{ content.footer.credit_html }}</textarea></p>
+    </section>
+
+    <p style="margin-top:1rem;">
+      <button type="submit">Сохранить</button>
+    </p>
+  </form>
+
+  <form method="post" action="{{ token_url('admin_panel.texts_reset_empty') }}" style="margin-top:1.5rem;" onsubmit="return confirm('Сбросить контент к значениям из файла site_defaults.json? Все правки в БД для текстов будут заменены.');">
+    <button type="submit" class="secondary">Сбросить к дефолтам из файла</button>
+  </form>
+</div>
+{% endblock %}

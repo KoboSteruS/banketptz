@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Админка{% endblock %} — Banket</title>
+  <style>
+    :root { --bg: #f4f4f5; --card: #fff; --text: #18181b; --muted: #71717a; --accent: #2c7a7b; --err: #b91c1c; --ok: #15803d; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
+    a { color: var(--accent); }
+    .wrap { max-width: 960px; margin: 0 auto; padding: 1.25rem; }
+    header.admin-head { background: var(--card); border-bottom: 1px solid #e4e4e7; margin-bottom: 1.5rem; }
+    header.admin-head .inner { max-width: 960px; margin: 0 auto; padding: 1rem 1.25rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.5rem; }
+    header.admin-head nav { display: flex; gap: 1rem; flex-wrap: wrap; }
+    header.admin-head nav a { text-decoration: none; font-weight: 500; }
+    header.admin-head nav a:hover { text-decoration: underline; }
+    .card { background: var(--card); border-radius: 12px; padding: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+    h1 { font-size: 1.35rem; margin: 0 0 1rem; }
+    .flash { padding: 0.65rem 1rem; border-radius: 8px; margin-bottom: 1rem; }
+    .flash.success { background: #dcfce7; color: var(--ok); }
+    .flash.error { background: #fee2e2; color: var(--err); }
+    .flash.warning { background: #fef9c3; color: unset; border: 1px solid #e5d68a; }
+    label { display: block; font-weight: 600; margin-bottom: 0.35rem; font-size: 0.9rem; }
+    input[type="text"], input[type="number"], textarea { width: 100%; padding: 0.5rem 0.65rem; border: 1px solid #d4d4d8; border-radius: 8px; font: inherit; }
+    textarea { min-height: 120px; font-family: ui-monospace, monospace; font-size: 0.85rem; }
+    button, .btn { display: inline-block; padding: 0.5rem 1rem; border-radius: 8px; border: 0; background: var(--accent); color: #fff; font-weight: 600; cursor: pointer; text-decoration: none; font-size: 0.95rem; }
+    button.secondary, .btn.secondary { background: #e4e4e7; color: var(--text); }
+    button.danger { background: #b91c1c; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+    th, td { text-align: left; padding: 0.6rem 0.75rem; border-bottom: 1px solid #e4e4e7; }
+    th { font-size: 0.8rem; text-transform: uppercase; color: var(--muted); }
+    .muted { color: var(--muted); font-size: 0.9rem; }
+    .texts-section { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid #e4e4e7; }
+    .texts-section:last-of-type { border-bottom: 0; }
+    .texts-section h2 { font-size: 1.05rem; margin: 0 0 1rem; color: var(--accent); }
+    .texts-grid { display: grid; gap: 1rem; }
+    @media (min-width: 640px) {
+      .texts-grid--2 { grid-template-columns: 1fr 1fr; }
+    }
+    .texts-hint { font-size: 0.8rem; color: var(--muted); margin: -0.25rem 0 0.35rem; }
+    .slide-block { background: #fafafa; padding: 1rem 1.25rem; border-radius: 10px; margin-bottom: 1rem; border: 1px solid #e4e4e7; }
+    .slide-block h3 { margin: 0 0 0.75rem; font-size: 0.95rem; }
+    textarea.monospace { font-family: ui-monospace, monospace; font-size: 0.82rem; }
+    .texts-image-field { display: flex; flex-direction: column; gap: 0.35rem; margin: 0; }
+    .texts-image-field > label { margin-bottom: 0; }
+    .texts-image-field input[type="file"] { font-size: 0.88rem; }
+    .admin-thumb-wrap { margin: 0.15rem 0 0.25rem; }
+    .admin-thumb { display: block; max-width: min(280px, 100%); max-height: 160px; object-fit: cover; border-radius: 8px; border: 1px solid #e4e4e7; }
+    .texts-upload-alt { margin-top: 0.25rem; font-weight: 500; }
+    .hall-modal-previews { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.5rem 0 1rem; align-items: flex-start; }
+    .hall-modal-previews img { max-width: 120px; max-height: 88px; object-fit: cover; border-radius: 8px; border: 1px solid #e4e4e7; }
+    .hall-gallery-upload { margin: 0.75rem 0 0; }
+    .hall-gallery-upload .muted { display: block; margin-top: 0.5rem; max-width: 36rem; }
+    .sr-only-file { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+  </style>
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <header class="admin-head">
+    <div class="inner">
+      <strong>Banket — админка</strong>
+      <nav>
+        <a href="{{ token_url('admin_panel.dashboard') }}">Главная</a>
+        <a href="{{ token_url('admin_panel.texts_edit') }}">Тексты и контент</a>
+        <a href="{{ token_url('admin_panel.halls_list') }}">Залы</a>
+      </nav>
+    </div>
+  </header>
+  <div class="wrap">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    {% block body %}{% endblock %}
+  </div>
+</body>
+</html>

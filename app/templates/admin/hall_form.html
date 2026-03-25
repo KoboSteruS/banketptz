@@ -1,0 +1,90 @@
+{% extends "admin/base.html" %}
+{% block title %}{% if hall %}Зал: {{ hall.title_short }}{% else %}Новый зал{% endif %}{% endblock %}
+{% block body %}
+<div class="card">
+  <h1>{% if hall %}Редактирование зала{% else %}Новый зал{% endif %}</h1>
+  <form id="hall-form" method="post" enctype="multipart/form-data" action="{% if hall %}{{ token_url('admin_panel.hall_edit', hall_id=hall.id) }}{% else %}{{ token_url('admin_panel.hall_new') }}{% endif %}">
+    <p>
+      <label for="slug">Slug (латиница, дефис)</label>
+      <input type="text" id="slug" name="slug" required pattern="[a-z0-9\-]+"
+        value="{{ hall.slug if hall else '' }}" placeholder="sverdlov">
+    </p>
+    <p>
+      <label for="sort_order">Порядок сортировки</label>
+      <input type="number" id="sort_order" name="sort_order" value="{{ hall.sort_order if hall else 0 }}">
+    </p>
+    <p>
+      <label for="title_short">Короткое название (галерея)</label>
+      <input type="text" id="title_short" name="title_short" required value="{{ hall.title_short if hall else '' }}">
+    </p>
+    <p>
+      <label for="title_full">Полное название (карточка)</label>
+      <input type="text" id="title_full" name="title_full" required value="{{ hall.title_full if hall else '' }}">
+    </p>
+    <p>
+      <label for="meta_line">Вместимость (подзаголовок)</label>
+      <input type="text" id="meta_line" name="meta_line" value="{{ hall.meta_line if hall else '' }}">
+    </p>
+    <p>
+      <label for="capacity_lines">Три строки списка (по одной на строку)</label>
+      <textarea id="capacity_lines" name="capacity_lines" rows="4">{{ capacity_lines_text }}</textarea>
+    </p>
+    <p>
+      <label for="address_line">Адрес (строка)</label>
+      <input type="text" id="address_line" name="address_line" value="{{ hall.address_line if hall else '' }}">
+    </p>
+    <p>
+      <label for="maps_link">Ссылка на карты (Google / др.)</label>
+      <input type="text" id="maps_link" name="maps_link" value="{{ hall.maps_link if hall else '' }}" style="font-size:0.85rem;">
+    </p>
+    <p>
+      <label>Фото для сетки галереи (верх)</label>
+      {% if hall and hall.image_gallery %}
+      <span class="muted">Сейчас: <code>{{ hall.image_gallery }}</code></span>
+      {% endif %}
+      <input type="file" name="image_gallery" accept="image/*">
+      <label for="image_gallery_path" class="muted" style="margin-top:0.5rem;">Или путь в static:</label>
+      <input type="text" id="image_gallery_path" name="image_gallery_path" value="{{ hall.image_gallery if hall else '' }}" placeholder="images/Sverdlov/Sverdlov.jpg">
+    </p>
+    <p>
+      <label>Фото в карточке зала (крупное)</label>
+      {% if hall and hall.image_detail %}
+      <span class="muted">Сейчас: <code>{{ hall.image_detail }}</code></span>
+      {% endif %}
+      <input type="file" name="image_detail" accept="image/*">
+      <label for="image_detail_path" class="muted" style="margin-top:0.5rem;">Или путь:</label>
+      <input type="text" id="image_detail_path" name="image_detail_path" value="{{ hall.image_detail if hall else '' }}">
+    </p>
+    <div class="hall-modal-gallery-block">
+      <label for="photos_json">Фото для модалки «Фотоснимки»</label>
+      <p class="muted" style="margin: 0.35rem 0 0.75rem;">Пути в <code>static/</code> — по одной строке. Загруженные файлы добавляются <strong>в конец</strong> списка при «Сохранить».</p>
+      {% if photos_lines_text and photos_lines_text.strip() %}
+      <div class="hall-modal-previews" aria-hidden="true">
+        {% for line in photos_lines_text.splitlines() %}
+        {% set lp = line.strip() %}
+        {% if lp %}
+        <img src="{{ url_for('static', filename=lp) }}" alt="" loading="lazy">
+        {% endif %}
+        {% endfor %}
+      </div>
+      {% endif %}
+      <textarea id="photos_json" name="photos_json" rows="6" placeholder="uploads/halls/… или images/…">{{ photos_lines_text }}</textarea>
+      <div class="hall-gallery-upload">
+        <input type="file" id="gallery_photos" name="gallery_photos" class="sr-only-file" multiple accept="image/png,image/jpeg,image/webp,image/gif">
+        <label for="gallery_photos" class="btn secondary" style="cursor:pointer;">Загрузить в галерею</label>
+        <span class="muted">Можно выбрать несколько файлов сразу; после сохранения пути появятся в списке выше.</span>
+      </div>
+    </div>
+    <p>
+      <label>
+        <input type="checkbox" name="is_active" value="1" {% if not hall or hall.is_active %}checked{% endif %}>
+        Активен на сайте
+      </label>
+    </p>
+    <p>
+      <button type="submit">Сохранить</button>
+      <a href="{{ token_url('admin_panel.halls_list') }}" class="btn secondary" style="margin-left:0.5rem;">Отмена</a>
+    </p>
+  </form>
+</div>
+{% endblock %}
