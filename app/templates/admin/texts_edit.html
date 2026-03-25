@@ -219,7 +219,7 @@
       <p><label for="ft_vk_url">Ссылка ВКонтакте</label>
         <input type="text" id="ft_vk_url" name="ft_vk_url" value="{{ content.footer.vk_url }}" placeholder="{{ defaults.footer.vk_url }}"></p>
       <p><label for="ft_copy">Копирайт (строка)</label>
-        <input type="text" id="ft_copy" name="ft_copy" value="{{ content.footer.copy }}" placeholder="{{ defaults.footer.copy }}"></p>
+        <input type="text" id="ft_copy" name="ft_copy" value="{{ content.footer['copy'] }}" placeholder="{{ defaults.footer['copy'] }}"></p>
       <p><label for="ft_credit_html">Кредит (HTML, допускаются теги)</label>
         <textarea id="ft_credit_html" name="ft_credit_html" rows="3" class="monospace" placeholder="Создано командой &lt;a href=&quot;...&quot; class=&quot;footer-credit__link&quot;&gt;...&lt;/a&gt;">{{ content.footer.credit_html }}</textarea></p>
     </section>

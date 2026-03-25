@@ -35,7 +35,29 @@ def get_merged_site_content() -> dict[str, Any]:
         saved = json.loads(row.json_value)
     except json.JSONDecodeError:
         return defaults
-    return deep_merge(defaults, saved)
+    merged = deep_merge(defaults, saved)
+    return _sanitize_known_bad_values(merged, defaults)
+
+
+def _sanitize_known_bad_values(
+    content: dict[str, Any],
+    defaults: dict[str, Any],
+) -> dict[str, Any]:
+    """
+    Исправляет известные артефакты, которые могли сохраниться в БД.
+
+    Пример: ключ footer.copy иногда перетирался строкой вида
+    "<built-in method copy of dict object at 0x...>" из-за конфликта имён.
+    """
+    footer = content.get("footer") or {}
+    default_footer = defaults.get("footer") or {}
+    copy_value = footer.get("copy")
+
+    if not isinstance(copy_value, str) or copy_value.startswith("<built-in method copy"):
+        footer["copy"] = default_footer.get("copy", "")
+        content["footer"] = footer
+
+    return content
 
 
 def hall_capacity_list(hall: Hall) -> list[str]:
