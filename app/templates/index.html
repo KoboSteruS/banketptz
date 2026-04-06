@@ -546,7 +546,7 @@
             </div>
             <div class="form-group">
               <label for="phone">Телефон *</label>
-              <input type="tel" id="phone" name="phone" required placeholder="+7 (999) 123-45-67">
+              <input type="tel" id="phone" name="phone" required placeholder="+7 (999) 123-45-67" inputmode="tel" autocomplete="tel">
             </div>
           </div>
           <div class="form-row">
@@ -572,6 +572,13 @@
             <label for="message">Комментарий</label>
             <textarea id="message" name="message" rows="4" placeholder="Расскажите о вашем мероприятии..."></textarea>
           </div>
+          <fieldset class="form-consents">
+            <legend class="form-consents__legend">Согласие *</legend>
+            <label class="form-consent">
+              <input type="checkbox" id="consent_personal" name="consent_personal" value="1" required>
+              <span>Согласен(на) на <a href="{{ url_for('pages.privacy') }}" target="_blank" rel="noopener">обработку персональных данных</a> в целях обработки заявки.</span>
+            </label>
+          </fieldset>
           <button type="submit" class="btn" id="booking-submit">Отправить заявку</button>
           <p class="form-note" id="booking-form-hint">Заявка уходит на сервер и рассылается ответственным в VK.</p>
           <p class="form-note" id="booking-form-status" role="status" aria-live="polite" style="min-height:1.25em;"></p>
@@ -661,6 +668,7 @@
         <li><a href="#venues">Залы</a></li>
         <li><a href="#menu">Меню</a></li>
         <li><a href="#contacts">Контакты и заявка</a></li>
+        <li><a href="{{ url_for('pages.privacy') }}">Политика конфиденциальности</a></li>
       </ul>
     </nav>
     <div class="footer-contacts">
@@ -690,6 +698,16 @@
     if (!form) return;
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+      var phoneEl = document.getElementById('phone');
+      var digits = (phoneEl && phoneEl.value) ? phoneEl.value.replace(/\D/g, '') : '';
+      if (digits.length < 10) {
+        if (phoneEl) {
+          phoneEl.setCustomValidity('Введите номер не короче 10 цифр');
+          phoneEl.reportValidity();
+          phoneEl.setCustomValidity('');
+        }
+        return;
+      }
       if (!form.checkValidity()) {
         form.reportValidity();
         return;
@@ -701,7 +719,8 @@
         date: document.getElementById('date').value,
         venue: document.getElementById('venue').value,
         message: document.getElementById('message').value,
-        website: document.getElementById('website').value
+        website: document.getElementById('website').value,
+        consent_personal: document.getElementById('consent_personal').checked
       };
       if (statusEl) statusEl.textContent = 'Отправка…';
       if (hintEl) hintEl.style.display = 'none';

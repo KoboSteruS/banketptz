@@ -15,5 +15,42 @@
 </head>
 <body>
   {% block body %}{% endblock %}
+
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-modal="false" aria-labelledby="cookie-banner-title" hidden>
+    <div class="cookie-banner__inner container">
+      <p id="cookie-banner-title" class="cookie-banner__text">
+        Мы используем файлы cookie для корректной работы сайта. Продолжая пользоваться сайтом, вы соглашаетесь с их использованием.
+        <a href="{{ url_for('pages.privacy') }}">Подробнее</a>
+      </p>
+      <div class="cookie-banner__actions">
+        <button type="button" class="btn btn-secondary cookie-banner__reject" id="cookie-banner-reject">Отклонить</button>
+        <button type="button" class="btn btn-primary" id="cookie-banner-accept">Принять</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var KEY = 'banket_cookie_consent';
+      var banner = document.getElementById('cookie-banner');
+      var accept = document.getElementById('cookie-banner-accept');
+      var reject = document.getElementById('cookie-banner-reject');
+      if (!banner || !accept) return;
+      try {
+        if (localStorage.getItem(KEY) === 'accepted' || localStorage.getItem(KEY) === 'rejected') {
+          return;
+        }
+      } catch (e) {}
+      banner.hidden = false;
+      function setConsent(value) {
+        try { localStorage.setItem(KEY, value); } catch (e) {}
+        var maxAge = value === 'accepted' ? 31536000 : 86400;
+        document.cookie = 'cookie_consent=' + encodeURIComponent(value) + '; path=/; max-age=' + maxAge + '; SameSite=Lax';
+        banner.hidden = true;
+        window.dispatchEvent(new CustomEvent('cookieconsent', { detail: { value: value } }));
+      }
+      accept.addEventListener('click', function () { setConsent('accepted'); });
+      if (reject) reject.addEventListener('click', function () { setConsent('rejected'); });
+    })();
+  </script>
 </body>
 </html>

@@ -17,6 +17,22 @@ from loguru import logger
 
 pages_bp = Blueprint("pages", __name__)
 
+_CONSENT_TRUE = frozenset({"1", "true", "yes", "on"})
+
+
+def _consent_ok(value) -> bool:
+    """Согласие из JSON: true или строка yes/1/on."""
+    if value is True:
+        return True
+    if isinstance(value, str):
+        return value.strip().lower() in _CONSENT_TRUE
+    return False
+
+
+def _phone_digits_ok(phone: str) -> bool:
+    digits = "".join(c for c in phone if c.isdigit())
+    return len(digits) >= 10
+
 
 def _normalize_host(value: str) -> str:
     """Сравнение Host / Origin без учёта регистра и стандартных портов."""
@@ -98,6 +114,31 @@ def index():
     )
 
 
+@pages_bp.route("/privacy")
+def privacy():
+    """Отдельная страница политики конфиденциальности и cookie."""
+    content = get_merged_site_content()
+    header = content.get("header", {})
+    brand = (header.get("site_name") or "Банкетные залы").strip()
+    city = (header.get("city") or "").strip()
+    title = f"Политика конфиденциальности — {brand}"
+    if city:
+        title = f"Политика конфиденциальности — {brand}, {city}"
+    description = (
+        f"Политика конфиденциальности и обработки персональных данных, использование файлов cookie, "
+        f"права субъектов данных и контакты оператора — {brand}"
+        + (f", {city}" if city else "")
+        + "."
+    )
+    canonical = request.url_root.rstrip("/") + url_for("pages.privacy")
+    seo = {
+        "title": title,
+        "description": description,
+        "canonical": canonical,
+    }
+    return render_template("privacy.html", content=content, seo=seo)
+
+
 @pages_bp.route("/api/booking", methods=["POST"])
 def api_booking():
     """
@@ -117,10 +158,19 @@ def api_booking():
     if (payload.get("website") or "").strip():
         return jsonify({"ok": True})
 
+    if not _consent_ok(payload.get("consent_personal")):
+        return jsonify(
+            {"ok": False, "error": "Нужно согласие на обработку персональных данных"},
+        ), 400
+
     name = (payload.get("name") or "").strip()
     phone = (payload.get("phone") or "").strip()
     if not name or not phone:
         return jsonify({"ok": False, "error": "Укажите имя и телефон"}), 400
+    if not _phone_digits_ok(phone):
+        return jsonify(
+            {"ok": False, "error": "Укажите корректный номер телефона (не менее 10 цифр)"},
+        ), 400
 
     guests = (payload.get("guests") or "").strip()
     date_s = (payload.get("date") or "").strip()
@@ -180,7 +230,10 @@ def sitemap_xml() -> Response:
     now_iso = datetime.now(timezone.utc).date().isoformat()
     xml = render_template(
         "sitemap.xml",
-        pages=[{"loc": f"{base}{url_for('pages.index')}", "lastmod": now_iso}],
+        pages=[
+            {"loc": f"{base}{url_for('pages.index')}", "lastmod": now_iso, "priority": "1.0"},
+            {"loc": f"{base}{url_for('pages.privacy')}", "lastmod": now_iso, "priority": "0.6"},
+        ],
     )
     return Response(xml, mimetype="application/xml")
 
