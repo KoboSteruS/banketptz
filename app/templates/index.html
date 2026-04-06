@@ -534,7 +534,11 @@
     <div class="contacts-booking-grid">
       <div class="contacts-booking__form" id="booking">
         <h3 class="contacts-booking__form-title">{{ content.contacts.form_title }}</h3>
-        <form class="booking-form" action="#" method="get" id="booking-form" aria-labelledby="contacts-title">
+        <form class="booking-form" action="#" method="post" id="booking-form" aria-labelledby="contacts-title" novalidate>
+          <div class="form-group" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;" aria-hidden="true">
+            <label for="website">Сайт</label>
+            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+          </div>
           <div class="form-row">
             <div class="form-group">
               <label for="name">Ваше имя *</label>
@@ -568,8 +572,9 @@
             <label for="message">Комментарий</label>
             <textarea id="message" name="message" rows="4" placeholder="Расскажите о вашем мероприятии..."></textarea>
           </div>
-          <button type="submit" class="btn">Отправить заявку в Telegram</button>
-          <p class="form-note">Нажимая кнопку, вы будете перенаправлены в Telegram для отправки заявки</p>
+          <button type="submit" class="btn" id="booking-submit">Отправить заявку</button>
+          <p class="form-note" id="booking-form-hint">Заявка уходит на сервер и рассылается ответственным в VK.</p>
+          <p class="form-note" id="booking-form-status" role="status" aria-live="polite" style="min-height:1.25em;"></p>
         </form>
       </div>
 
@@ -676,11 +681,53 @@
 
 
 <script>
-  document.getElementById('booking-form').addEventListener('submit', function (e) {
-    e.preventDefault();
-    var form = e.target;
-    var text = 'Новая заявка на бронирование\n\nИмя: ' + form.name.value + '\nТелефон: ' + form.phone.value + '\nГостей: ' + form.guests.value + '\nДата: ' + form.date.value + '\nЗал: ' + form.venue.value + '\nКомментарий: ' + form.message.value;
-    window.open('https://t.me/share/url?url=' + encodeURIComponent(window.location.href) + '&text=' + encodeURIComponent(text), '_blank');
-  });
+  (function () {
+    var form = document.getElementById('booking-form');
+    var statusEl = document.getElementById('booking-form-status');
+    var hintEl = document.getElementById('booking-form-hint');
+    var submitBtn = document.getElementById('booking-submit');
+    var url = {{ url_for('pages.api_booking') | tojson }};
+    if (!form) return;
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+      var payload = {
+        name: document.getElementById('name').value,
+        phone: document.getElementById('phone').value,
+        guests: document.getElementById('guests').value,
+        date: document.getElementById('date').value,
+        venue: document.getElementById('venue').value,
+        message: document.getElementById('message').value,
+        website: document.getElementById('website').value
+      };
+      if (statusEl) statusEl.textContent = 'Отправка…';
+      if (hintEl) hintEl.style.display = 'none';
+      if (submitBtn) submitBtn.disabled = true;
+      fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).then(function (r) { return r.json().then(function (data) { return { ok: r.ok, data: data }; }); })
+        .then(function (res) {
+          if (res.ok && res.data && res.data.ok) {
+            if (statusEl) statusEl.textContent = 'Заявка отправлена. Мы свяжемся с вами.';
+            form.reset();
+          } else {
+            var msg = (res.data && res.data.error) ? res.data.error : 'Не удалось отправить. Попробуйте позже или позвоните нам.';
+            if (statusEl) statusEl.textContent = msg;
+          }
+        })
+        .catch(function () {
+          if (statusEl) statusEl.textContent = 'Ошибка сети. Попробуйте позже или позвоните нам.';
+        })
+        .finally(function () {
+          if (submitBtn) submitBtn.disabled = false;
+          if (hintEl) hintEl.style.display = '';
+        });
+    });
+  })();
 </script>
 {% endblock %}

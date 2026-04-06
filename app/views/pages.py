@@ -2,8 +2,9 @@
 Роуты главных страниц лендинга.
 """
 from datetime import datetime, timezone
+from urllib.parse import urlparse
 
-from flask import Blueprint, Response, render_template, request, url_for
+from flask import Blueprint, Response, current_app, jsonify, render_template, request, url_for
 
 from app.models import Hall
 from app.services.content import (
@@ -11,6 +12,7 @@ from app.services.content import (
     build_venue_photos_urls,
     get_merged_site_content,
 )
+from app.services.vk_notify import parse_peer_ids, send_booking_to_vk
 
 pages_bp = Blueprint("pages", __name__)
 
@@ -55,6 +57,71 @@ def index():
         seo=seo,
         seo_schema=seo_schema,
     )
+
+
+@pages_bp.route("/api/booking", methods=["POST"])
+def api_booking():
+    """
+    Принимает JSON с полями формы бронирования и рассылает текст в VK указанным peer_id.
+    """
+    if not current_app.config.get("VK_ACCESS_TOKEN"):
+        return jsonify({"ok": False, "error": "VK не настроен на сервере"}), 503
+
+    origin = request.headers.get("Origin")
+    if origin:
+        o = urlparse(origin)
+        r = urlparse(request.host_url)
+        if (o.scheme, o.netloc) != (r.scheme, r.netloc):
+            return jsonify({"ok": False, "error": "Недопустимый запрос"}), 403
+
+    payload = request.get_json(silent=True)
+    if not isinstance(payload, dict):
+        return jsonify({"ok": False, "error": "Ожидается JSON"}), 400
+
+    # антиспам: скрытое поле «website» не должно заполняться
+    if (payload.get("website") or "").strip():
+        return jsonify({"ok": True})
+
+    name = (payload.get("name") or "").strip()
+    phone = (payload.get("phone") or "").strip()
+    if not name or not phone:
+        return jsonify({"ok": False, "error": "Укажите имя и телефон"}), 400
+
+    guests = (payload.get("guests") or "").strip()
+    date_s = (payload.get("date") or "").strip()
+    venue = (payload.get("venue") or "").strip()
+    message = (payload.get("message") or "").strip()
+
+    text_lines = [
+        "Новая заявка с сайта (бронирование зала)",
+        "",
+        f"Имя: {name}",
+        f"Телефон: {phone}",
+        f"Гостей: {guests or '—'}",
+        f"Дата: {date_s or '—'}",
+        f"Зал: {venue or '—'}",
+        "",
+        "Комментарий:",
+        message or "—",
+    ]
+    body = "\n".join(text_lines)
+
+    peer_ids = parse_peer_ids(current_app.config.get("VK_NOTIFY_USER_IDS", ""))
+    if not peer_ids:
+        return jsonify({"ok": False, "error": "Не заданы получатели VK"}), 503
+
+    token = current_app.config["VK_ACCESS_TOKEN"]
+    ok, errs = send_booking_to_vk(token, peer_ids, body)
+    if not ok:
+        return jsonify(
+            {
+                "ok": False,
+                "error": "Не удалось отправить в VK",
+                "details": errs[:5],
+            }
+        ), 502
+
+    return jsonify({"ok": True})
 
 
 @pages_bp.route("/robots.txt")

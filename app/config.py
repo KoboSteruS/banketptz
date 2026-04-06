@@ -25,3 +25,7 @@ class Config:
         "dev-admin-token-replace-in-production",
     )
     JWT_SECRET_KEY = os.environ.get("JWT_SECRET_KEY", SECRET_KEY)
+
+    # Уведомления о заявках с формы (VK messages.send)
+    VK_ACCESS_TOKEN = os.environ.get("VK_ACCESS_TOKEN", "")
+    VK_NOTIFY_USER_IDS = os.environ.get("VK_NOTIFY_USER_IDS", "")
