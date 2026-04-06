@@ -13,8 +13,47 @@ from app.services.content import (
     get_merged_site_content,
 )
 from app.services.vk_notify import parse_peer_ids, send_booking_to_vk
+from loguru import logger
 
 pages_bp = Blueprint("pages", __name__)
+
+
+def _normalize_host(value: str) -> str:
+    """Сравнение Host / Origin без учёта регистра и стандартных портов."""
+    v = (value or "").strip().lower()
+    if ":" in v:
+        host, _, port = v.rpartition(":")
+        if port in ("80", "443", ""):
+            return host
+    return v
+
+
+def _origin_allowed() -> bool:
+    """
+    Разрешаем POST только с того же хоста, что и страница (защита от CSRF с чужих сайтов).
+    За reverse proxy сравниваем Origin с заголовком Host, а не с request.host_url —
+    иначе в проде часто 403 (внутренний upstream ≠ публичный домен).
+    """
+    origin = request.headers.get("Origin")
+    if not origin:
+        return True
+    parsed = urlparse(origin)
+    if not parsed.netloc:
+        return False
+    origin_host = _normalize_host(parsed.netloc)
+    req_host = _normalize_host(request.host or "")
+    allowed = origin_host == req_host
+    if not allowed:
+        logger.warning(
+            "api/booking: отклонён Origin | origin_host={} req_host={} Host={!r} XFH={!r} scheme={} url={}",
+            origin_host,
+            req_host,
+            request.headers.get("Host"),
+            request.headers.get("X-Forwarded-Host"),
+            request.scheme,
+            request.url,
+        )
+    return allowed
 
 
 def _services_text_data(content: dict) -> list[dict]:
@@ -67,12 +106,8 @@ def api_booking():
     if not current_app.config.get("VK_ACCESS_TOKEN"):
         return jsonify({"ok": False, "error": "VK не настроен на сервере"}), 503
 
-    origin = request.headers.get("Origin")
-    if origin:
-        o = urlparse(origin)
-        r = urlparse(request.host_url)
-        if (o.scheme, o.netloc) != (r.scheme, r.netloc):
-            return jsonify({"ok": False, "error": "Недопустимый запрос"}), 403
+    if not _origin_allowed():
+        return jsonify({"ok": False, "error": "Недопустимый запрос"}), 403
 
     payload = request.get_json(silent=True)
     if not isinstance(payload, dict):
@@ -113,6 +148,7 @@ def api_booking():
     token = current_app.config["VK_ACCESS_TOKEN"]
     ok, errs = send_booking_to_vk(token, peer_ids, body)
     if not ok:
+        logger.error("api/booking: VK ошибки: {}", errs)
         return jsonify(
             {
                 "ok": False,
@@ -121,6 +157,7 @@ def api_booking():
             }
         ), 502
 
+    logger.info("api/booking: заявка отправлена в VK, peers={}", peer_ids)
     return jsonify({"ok": True})
 
 

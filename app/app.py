@@ -5,6 +5,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 from flask import Flask
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 _PROJECT_ROOT = Path(__file__).resolve().parent.parent
 load_dotenv(_PROJECT_ROOT / ".env")
@@ -19,6 +20,8 @@ from app.views.pages import pages_bp
 def create_app() -> Flask:
     app = Flask(__name__)
     app.config.from_object(Config)
+    # За nginx / другим reverse proxy: корректные Host, Scheme, url_for
+    app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_port=1, x_prefix=1)
     Path(app.config["INSTANCE_PATH"]).mkdir(parents=True, exist_ok=True)
     (Path(app.root_path) / "static" / "uploads" / "halls").mkdir(parents=True, exist_ok=True)
 

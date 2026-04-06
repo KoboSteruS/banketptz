@@ -706,23 +706,39 @@
       if (statusEl) statusEl.textContent = 'Отправка…';
       if (hintEl) hintEl.style.display = 'none';
       if (submitBtn) submitBtn.disabled = true;
+      console.info('[booking] POST', url);
       fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      }).then(function (r) { return r.json().then(function (data) { return { ok: r.ok, data: data }; }); })
-        .then(function (res) {
-          if (res.ok && res.data && res.data.ok) {
-            if (statusEl) statusEl.textContent = 'Заявка отправлена. Мы свяжемся с вами.';
-            form.reset();
-          } else {
-            var msg = (res.data && res.data.error) ? res.data.error : 'Не удалось отправить. Попробуйте позже или позвоните нам.';
-            if (statusEl) statusEl.textContent = msg;
+        body: JSON.stringify(payload),
+        credentials: 'same-origin'
+      }).then(function (r) {
+        return r.text().then(function (text) {
+          var data = null;
+          try {
+            data = text ? JSON.parse(text) : null;
+          } catch (e) {
+            console.error('[booking] ответ не JSON, status=', r.status, 'body=', text ? text.slice(0, 800) : '');
+            throw e;
           }
-        })
-        .catch(function () {
-          if (statusEl) statusEl.textContent = 'Ошибка сети. Попробуйте позже или позвоните нам.';
-        })
+          return { status: r.status, httpOk: r.ok, data: data };
+        });
+      }).then(function (res) {
+        console.info('[booking] ответ', res.status, res.data);
+        if (res.httpOk && res.data && res.data.ok) {
+          if (statusEl) statusEl.textContent = 'Заявка отправлена. Мы свяжемся с вами.';
+          form.reset();
+        } else {
+          var msg = (res.data && res.data.error) ? res.data.error : 'Не удалось отправить. Попробуйте позже или позвоните нам.';
+          if (res.data && res.data.details) {
+            console.error('[booking] details', res.data.details);
+          }
+          if (statusEl) statusEl.textContent = msg;
+        }
+      }).catch(function (err) {
+        console.error('[booking] ошибка', err);
+        if (statusEl) statusEl.textContent = 'Ошибка сети или сервера. Откройте консоль (F12) и проверьте лог [booking].';
+      })
         .finally(function () {
           if (submitBtn) submitBtn.disabled = false;
           if (hintEl) hintEl.style.display = '';
